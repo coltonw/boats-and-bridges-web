@@ -3,7 +3,11 @@
 	export let selected: boolean | undefined;
 </script>
 
-<div class={`island ${selected ? 'selected' : ''}`}>{number}</div>
+<div
+	class={`island ${selected ? 'selected' : ''} ${number === 0 ? 'done' : ''} ${number < 0 ? 'negative' : ''}`}
+>
+	{number}
+</div>
 
 <style>
 	.island {
@@ -32,5 +36,11 @@
 		bottom: -11px;
 		border: 3px solid white;
 		border-radius: 100%;
+	}
+	.done {
+		color: #a7882d;
+	}
+	.negative {
+		color: #cc0000;
 	}
 </style>

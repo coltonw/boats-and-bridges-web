@@ -1,5 +1,5 @@
 export const ssr = false;
-export function load({ params }) {
+export function load({ params }): LevelData {
 	console.log(params);
 	return {
 		islands: [
@@ -15,6 +15,8 @@ export function load({ params }) {
 				b: 1,
 				n: 0
 			}
-		]
+		],
+		bridgesH: [],
+		bridgesV: []
 	};
 }
