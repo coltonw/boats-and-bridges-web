@@ -6,9 +6,15 @@
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions a11y-click-events-have-key-events -->
-<div on:click={eventHandlerBuilder(data)} class="container" role="application">
-	{#each data.islands as { x, y, b, n }}
-		<IslandComponent number={b - n} --left={coordToPx(x)} --top={coordToPx(y)} />
+<div
+	on:click={eventHandlerBuilder(data)}
+	on:mousedown={eventHandlerBuilder(data)}
+	on:mouseup={eventHandlerBuilder(data)}
+	class="container"
+	role="application"
+>
+	{#each data.islands as { x, y, b, n, selected }}
+		<IslandComponent number={b - n} {selected} --left={coordToPx(x)} --top={coordToPx(y)} />
 	{/each}
 </div>
 
