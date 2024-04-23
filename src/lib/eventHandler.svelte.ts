@@ -3,13 +3,16 @@ import { addBridge, adjacent } from './utils';
 
 const selectIsland = (level: LevelData, island: Island) => {
 	const prevSelect = level.islands.find((i) => i.selected);
+	let added = false;
 	if (prevSelect) {
 		prevSelect.selected = false;
 		const newSelect = level.islands.find((i) => i.x === island.x && i.y === island.y);
 		if (newSelect && adjacent(level, prevSelect, newSelect)) {
 			addBridge(level, prevSelect, newSelect);
+			added = true;
 		}
-	} else {
+	}
+	if (!added) {
 		level.islands.forEach((i) => {
 			if (i.x === island.x && i.y === island.y) {
 				i.selected = !i.selected;
@@ -22,9 +25,6 @@ const selectIsland = (level: LevelData, island: Island) => {
 
 export const eventHandlerBuilder = (levelParam: LevelData) => {
 	const level: LevelData = $state(JSON.parse(JSON.stringify(levelParam)));
-	// $effect(() => {
-	// 	level = JSON.parse(JSON.stringify(levelParam));
-	// });
 	let mouseDownIsland: Island | undefined = undefined;
 	let mouseUpIsland: Island | undefined = undefined;
 	const handler = (event: MouseEvent) => {
@@ -39,10 +39,8 @@ export const eventHandlerBuilder = (levelParam: LevelData) => {
 			offsetY += element.offsetTop;
 			element = element.parentNode as HTMLElement;
 		}
-		const x = pxToCoord(offsetX);
+		const x = pxToCoord(offsetX, true);
 		const y = pxToCoord(offsetY);
-		// console.log(`offsetX: ${offsetX}, offsetY: ${offsetY}`);
-		// console.log(`x: ${x}, y: ${y}`);
 		if (typeof x !== 'undefined' && typeof y !== 'undefined') {
 			const island = level.islands.find((island) => island.x === x && island.y === y);
 			if (event.type === 'mousedown') {

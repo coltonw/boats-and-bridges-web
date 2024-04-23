@@ -8,10 +8,10 @@
 	const { data }: { data: LevelData } = $props();
 	const { level, handler } = $derived(eventHandlerBuilder(data));
 	const victory = $derived(checkVictory(level));
-	let scale: number | undefined = $state();
+	let renderKey: number | undefined = $state();
 	let appContainer: HTMLDivElement;
 	$effect(() => {
-		scale = setScale(level, appContainer.offsetWidth, appContainer.offsetHeight);
+		renderKey = setScale(level, appContainer.offsetWidth, appContainer.offsetHeight);
 	});
 </script>
 
@@ -34,11 +34,11 @@
 		role="application"
 		bind:this={appContainer}
 	>
-		{#key scale}
+		{#key renderKey}
 			{#each level.bridgesH as { x0, x1, y, n }}
 				<BridgeHComponent
 					{n}
-					--left={coordToPx(x0)}
+					--left={coordToPx(x0, 0, true)}
 					--top={coordToPx(y)}
 					--width={coordToPx(x1 - x0)}
 				/>
@@ -46,13 +46,13 @@
 			{#each level.bridgesV as { x, y0, y1, n }}
 				<BridgeVComponent
 					{n}
-					--left={coordToPx(x)}
+					--left={coordToPx(x, 0, true)}
 					--top={coordToPx(y0)}
 					--height={coordToPx(y1 - y0)}
 				/>
 			{/each}
 			{#each level.islands as { x, y, b, n, selected }}
-				<IslandComponent {b} {n} {selected} --left={coordToPx(x)} --top={coordToPx(y)} />
+				<IslandComponent {b} {n} {selected} --left={coordToPx(x, 0, true)} --top={coordToPx(y)} />
 			{/each}
 		{/key}
 	</div>
