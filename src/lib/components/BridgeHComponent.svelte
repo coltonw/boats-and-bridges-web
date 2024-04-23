@@ -1,5 +1,8 @@
 <script lang="ts">
-	export let n: number;
+	type BridgeProps = {
+		n: number;
+	};
+	const { n }: BridgeProps = $props();
 </script>
 
 <div class={`bridgeH ${n === 2 ? 'double' : ''}`}></div>

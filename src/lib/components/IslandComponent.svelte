@@ -1,12 +1,16 @@
 <script lang="ts">
-	export let number: number;
-	export let selected: boolean | undefined;
+	type IslandProps = {
+		b: number | null;
+		n: number;
+		selected?: boolean;
+	};
+	const { n, b, selected }: IslandProps = $props();
 </script>
 
 <div
-	class={`island ${selected ? 'selected' : ''} ${number === 0 ? 'done' : ''} ${number < 0 ? 'negative' : ''}`}
+	class={`island ${selected ? 'selected' : ''} ${n === b ? 'done' : ''} ${b !== null && n > b ? 'negative' : ''}`}
 >
-	{number}
+	{b === null ? '?' : b}
 </div>
 
 <style>

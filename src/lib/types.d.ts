@@ -1,7 +1,7 @@
 type Island = {
 	x: number;
 	y: number;
-	b: number;
+	b: number | null;
 	n: number;
 	selected?: boolean;
 };
@@ -21,7 +21,14 @@ type BridgeV = {
 };
 
 type LevelData = {
+	name: string;
 	islands: Island[];
 	bridgesH: BridgeH[];
 	bridgesV: BridgeV[];
+	solution: {
+		bridgesH: BridgeH[];
+		bridgesV: BridgeV[];
+	};
+	previousUri?: string;
+	nextUri?: string;
 };

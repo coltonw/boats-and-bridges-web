@@ -167,3 +167,38 @@ export const removeBridge = (level: LevelData, island0: Island, island1: Island,
 	island0.n -= n;
 	island1.n -= n;
 };
+
+export const checkVictory = (level: LevelData) => {
+	let victory =
+		level.bridgesH.length === level.solution.bridgesH.length &&
+		level.bridgesV.length === level.solution.bridgesV.length;
+	if (victory) {
+		level.bridgesH.forEach((bridgeH) => {
+			const found = level.solution.bridgesH.find(
+				(sBH) =>
+					bridgeH.x0 === sBH.x0 &&
+					bridgeH.x1 === sBH.x1 &&
+					bridgeH.y === sBH.y &&
+					bridgeH.n === sBH.n
+			);
+			if (!found) {
+				victory = false;
+			}
+		});
+	}
+	if (victory) {
+		level.bridgesV.forEach((bridgeV) => {
+			const found = level.solution.bridgesV.find(
+				(sBV) =>
+					bridgeV.x === sBV.x &&
+					bridgeV.y0 === sBV.y0 &&
+					bridgeV.y1 === sBV.y1 &&
+					bridgeV.n === sBV.n
+			);
+			if (!found) {
+				victory = false;
+			}
+		});
+	}
+	return victory;
+};

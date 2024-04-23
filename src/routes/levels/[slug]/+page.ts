@@ -1,22 +1,9 @@
+import levels from '$lib/levels/';
 export const ssr = false;
 export function load({ params }): LevelData {
-	console.log(params);
-	return {
-		islands: [
-			{
-				x: 0,
-				y: 0,
-				b: 1,
-				n: 0
-			},
-			{
-				x: 1,
-				y: 0,
-				b: 1,
-				n: 0
-			}
-		],
-		bridgesH: [],
-		bridgesV: []
-	};
+	const levelIndex = parseInt(params.slug, 10);
+	if (isNaN(levelIndex) || levelIndex > levels.length || levelIndex < 1) {
+		return levels[0];
+	}
+	return levels[levelIndex - 1];
 }

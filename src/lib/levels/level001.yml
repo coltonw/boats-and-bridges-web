@@ -1,0 +1,22 @@
+name: How to play
+islands:
+  - x: 0
+    'y': 0
+    b: 1
+    'n': 0
+  - x: 1
+    'y': 0
+    b: 1
+    'n': 0
+boats: []
+pirates: []
+trucks: []
+bridgesH: []
+bridgesV: []
+solution:
+  bridgesH:
+    - x0: 0
+      x1: 1
+      'y': 0
+      'n': 1
+  bridgesV: []

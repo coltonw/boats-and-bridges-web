@@ -1,5 +1,5 @@
 import { pxToCoord } from './mapping';
-import { addBridge, removeBridge, adjacent } from './utils';
+import { addBridge, adjacent } from './utils';
 
 const selectIsland = (level: LevelData, island: Island) => {
 	const prevSelect = level.islands.find((i) => i.selected);
@@ -20,10 +20,14 @@ const selectIsland = (level: LevelData, island: Island) => {
 	}
 };
 
-export const eventHandlerBuilder = (level: LevelData) => {
+export const eventHandlerBuilder = (levelParam: LevelData) => {
+	const level: LevelData = $state(JSON.parse(JSON.stringify(levelParam)));
+	// $effect(() => {
+	// 	level = JSON.parse(JSON.stringify(levelParam));
+	// });
 	let mouseDownIsland: Island | undefined = undefined;
 	let mouseUpIsland: Island | undefined = undefined;
-	return (event: MouseEvent) => {
+	const handler = (event: MouseEvent) => {
 		event.type;
 		let offsetX = event.offsetX;
 		let offsetY = event.offsetY;
@@ -37,8 +41,8 @@ export const eventHandlerBuilder = (level: LevelData) => {
 		}
 		const x = pxToCoord(offsetX);
 		const y = pxToCoord(offsetY);
-		console.log(`offsetX: ${offsetX}, offsetY: ${offsetY}`);
-		console.log(`x: ${x}, y: ${y}`);
+		// console.log(`offsetX: ${offsetX}, offsetY: ${offsetY}`);
+		// console.log(`x: ${x}, y: ${y}`);
 		if (typeof x !== 'undefined' && typeof y !== 'undefined') {
 			const island = level.islands.find((island) => island.x === x && island.y === y);
 			if (event.type === 'mousedown') {
@@ -61,5 +65,11 @@ export const eventHandlerBuilder = (level: LevelData) => {
 				mouseDownIsland = undefined;
 			}
 		}
+	};
+	return {
+		get level() {
+			return level;
+		},
+		handler
 	};
 };
