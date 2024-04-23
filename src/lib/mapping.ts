@@ -15,13 +15,19 @@ export const setScale = (level: LevelData, containerWidth: number, containerHeig
 	const maxWidth = containerWidth - 2 * margin - islandSize;
 	const maxHeight = containerHeight - 2 * margin - islandSize;
 	scale = Math.min(Math.min(Math.floor(maxWidth / maxX), Math.floor(maxHeight / maxY)), maxScale);
-	console.log(maxX, maxY, Math.floor(maxWidth / maxX), Math.floor(maxHeight / maxY), scale);
 	offsetX = (maxWidth - maxX * scale) / 2;
 	// return a key used to determine when a re-render needs to happen
 	return scale * 1000 + offsetX;
 };
+
+export const coordToOffset = (
+	coord: number,
+	modifier: number = 0,
+	includeOffsetX: boolean = false
+) => coord * scale + modifier + (includeOffsetX ? offsetX : 0);
+
 export const coordToPx = (coord: number, modifier: number = 0, includeOffsetX: boolean = false) =>
-	`${coord * scale + modifier + (includeOffsetX ? offsetX : 0)}px`;
+	`${coordToOffset(coord, modifier, includeOffsetX)}px`;
 
 export const pxToCoord = (px: number, includeOffsetX: boolean = false) => {
 	const offset = includeOffsetX ? offsetX : 0;
@@ -32,3 +38,5 @@ export const pxToCoord = (px: number, includeOffsetX: boolean = false) => {
 	}
 	return undefined;
 };
+
+export const islandCenterOffset = () => margin + islandSize / 2;

@@ -61,8 +61,13 @@ export const adjacent = (level: LevelData, island0: Island, island1: Island) => 
 
 export const full = (island: Island) => bridgesLeft(island) <= 0;
 
-export const addBridge = (level: LevelData, island0: Island, island1: Island, n = 1) => {
-	let added = true;
+export const addBridge = (
+	level: LevelData,
+	island0: Island,
+	island1: Island,
+	n = 1
+): LevelChange => {
+	let levelChange: LevelChange = {};
 	if (island0.x === island1.x) {
 		const bridge = {
 			x: island0.x,
@@ -78,17 +83,29 @@ export const addBridge = (level: LevelData, island0: Island, island1: Island, n 
 				level.bridgesV[i].y1 === bridge.y1
 			) {
 				if (level.bridgesV[i].n + n > 2) {
-					added = false;
-					removeBridge(level, island0, island1, level.bridgesV[i].n);
+					levelChange = removeBridge(level, island0, island1, level.bridgesV[i].n);
 				} else {
-					level.bridgesV[i].n += n;
+					levelChange = {
+						update: {
+							bridgesV: [
+								{
+									...level.bridgesV[i],
+									n: level.bridgesV[i].n + n
+								}
+							]
+						}
+					};
 				}
 				found = true;
 				break;
 			}
 		}
 		if (!found) {
-			level.bridgesV.push(bridge);
+			levelChange = {
+				add: {
+					bridgesV: [bridge]
+				}
+			};
 		}
 	} else {
 		const bridge = {
@@ -105,26 +122,48 @@ export const addBridge = (level: LevelData, island0: Island, island1: Island, n 
 				level.bridgesH[i].y === bridge.y
 			) {
 				if (level.bridgesH[i].n + n > 2) {
-					added = false;
-					removeBridge(level, island0, island1, level.bridgesH[i].n);
+					levelChange = removeBridge(level, island0, island1, level.bridgesH[i].n);
 				} else {
-					level.bridgesH[i].n += n;
+					levelChange = {
+						update: {
+							bridgesH: [
+								{
+									...level.bridgesH[i],
+									n: level.bridgesH[i].n + n
+								}
+							]
+						}
+					};
 				}
 				found = true;
 				break;
 			}
 		}
 		if (!found) {
-			level.bridgesH.push(bridge);
+			levelChange = {
+				add: {
+					bridgesH: [bridge]
+				}
+			};
 		}
 	}
-	if (added) {
-		island0.n += n;
-		island1.n += n;
+	if (!levelChange.remove) {
+		levelChange.update = levelChange.update || {};
+		levelChange.update.islands = [
+			{ ...island0, n: island0.n + n },
+			{ ...island1, n: island1.n + n }
+		];
 	}
+	return levelChange;
 };
 
-export const removeBridge = (level: LevelData, island0: Island, island1: Island, n = 1) => {
+export const removeBridge = (
+	level: LevelData,
+	island0: Island,
+	island1: Island,
+	n = 1
+): LevelChange => {
+	const levelChange: LevelChange = {};
 	if (island0.x === island1.x) {
 		const bridge = {
 			x: island0.x,
@@ -137,9 +176,17 @@ export const removeBridge = (level: LevelData, island0: Island, island1: Island,
 				level.bridgesV[i].y0 === bridge.y0 &&
 				level.bridgesV[i].y1 === bridge.y1
 			) {
-				level.bridgesV[i].n -= n;
-				if (level.bridgesV[i].n <= 0) {
-					level.bridgesV.splice(i, 1);
+				if (level.bridgesV[i].n - n <= 0) {
+					levelChange.remove = {};
+					levelChange.remove.bridgesV = [level.bridgesV[i]];
+				} else {
+					levelChange.update = {};
+					levelChange.update.bridgesV = [
+						{
+							...level.bridgesV[i],
+							n: level.bridgesV[i].n - n
+						}
+					];
 				}
 				break;
 			}
@@ -156,16 +203,28 @@ export const removeBridge = (level: LevelData, island0: Island, island1: Island,
 				level.bridgesH[i].x1 === bridge.x1 &&
 				level.bridgesH[i].y === bridge.y
 			) {
-				level.bridgesH[i].n -= n;
-				if (level.bridgesH[i].n <= 0) {
-					level.bridgesH.splice(i, 1);
+				if (level.bridgesH[i].n - n <= 0) {
+					levelChange.remove = {};
+					levelChange.remove.bridgesH = [level.bridgesH[i]];
+				} else {
+					levelChange.update = {};
+					levelChange.update.bridgesH = [
+						{
+							...level.bridgesH[i],
+							n: level.bridgesH[i].n - n
+						}
+					];
 				}
 				break;
 			}
 		}
 	}
-	island0.n -= n;
-	island1.n -= n;
+	levelChange.update = levelChange.update || {};
+	levelChange.update.islands = [
+		{ ...island0, n: island0.n - n },
+		{ ...island1, n: island1.n - n }
+	];
+	return levelChange;
 };
 
 export const checkVictory = (level: LevelData) => {

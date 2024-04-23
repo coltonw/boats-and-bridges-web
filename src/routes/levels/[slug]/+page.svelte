@@ -2,16 +2,17 @@
 	import IslandComponent from '$lib/components/IslandComponent.svelte';
 	import BridgeHComponent from '$lib/components/BridgeHComponent.svelte';
 	import BridgeVComponent from '$lib/components/BridgeVComponent.svelte';
+	import FloatingBridgeComponent from '$lib/components/FloatingBridgeComponent.svelte';
 	import { coordToPx, setScale } from '$lib/mapping';
-	import { eventHandlerBuilder } from '$lib/eventHandler.svelte';
+	import { gameBuilder } from '$lib/game.svelte';
 	import { checkVictory } from '$lib/utils';
 	const { data }: { data: LevelData } = $props();
-	const { level, handler } = $derived(eventHandlerBuilder(data));
-	const victory = $derived(checkVictory(level));
+	const game = $derived(gameBuilder(data));
+	const victory = $derived(checkVictory(game.level));
 	let renderKey: number | undefined = $state();
 	let appContainer: HTMLDivElement;
 	$effect(() => {
-		renderKey = setScale(level, appContainer.offsetWidth, appContainer.offsetHeight);
+		renderKey = setScale(game.level, appContainer.offsetWidth, appContainer.offsetHeight);
 	});
 </script>
 
@@ -27,15 +28,25 @@
 		{/if}
 	</div>
 	<div
-		onclick={handler}
-		onmousedown={handler}
-		onmouseup={handler}
+		onclick={game.clickHandler}
+		onmousedown={game.clickHandler}
+		onmouseup={game.clickHandler}
+		onmousemove={game.moveHandler}
+		onmouseleave={game.leaveHandler}
 		class="level-container"
 		role="application"
 		bind:this={appContainer}
 	>
 		{#key renderKey}
-			{#each level.bridgesH as { x0, x1, y, n }}
+			{#if game.floatingBridge}
+				<FloatingBridgeComponent
+					--left={`${game.floatingBridge.left}px`}
+					--top={`${game.floatingBridge.top}px`}
+					--width={`${game.floatingBridge.width}px`}
+					--rotate={`${game.floatingBridge.rotate}rad`}
+				/>
+			{/if}
+			{#each game.level.bridgesH as { x0, x1, y, n }}
 				<BridgeHComponent
 					{n}
 					--left={coordToPx(x0, 0, true)}
@@ -43,7 +54,7 @@
 					--width={coordToPx(x1 - x0)}
 				/>
 			{/each}
-			{#each level.bridgesV as { x, y0, y1, n }}
+			{#each game.level.bridgesV as { x, y0, y1, n }}
 				<BridgeVComponent
 					{n}
 					--left={coordToPx(x, 0, true)}
@@ -51,7 +62,7 @@
 					--height={coordToPx(y1 - y0)}
 				/>
 			{/each}
-			{#each level.islands as { x, y, b, n, selected }}
+			{#each game.level.islands as { x, y, b, n, selected }}
 				<IslandComponent {b} {n} {selected} --left={coordToPx(x, 0, true)} --top={coordToPx(y)} />
 			{/each}
 		{/key}

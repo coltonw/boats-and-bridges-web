@@ -20,6 +20,13 @@ type BridgeV = {
 	n: number;
 };
 
+type FloatingBridge = {
+	left: number;
+	top: number;
+	width: number;
+	rotate: number;
+};
+
 type LevelData = {
 	name: string;
 	islands: Island[];
@@ -31,4 +38,20 @@ type LevelData = {
 	};
 	previousUri?: string;
 	nextUri?: string;
+};
+
+type LevelChange = {
+	add?: {
+		bridgesH?: BridgeH[];
+		bridgesV?: BridgeV[];
+	};
+	remove?: {
+		bridgesH?: BridgeH[];
+		bridgesV?: BridgeV[];
+	};
+	update?: {
+		islands?: Island[];
+		bridgesH?: BridgeH[];
+		bridgesV?: BridgeV[];
+	};
 };

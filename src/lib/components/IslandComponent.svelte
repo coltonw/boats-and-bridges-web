@@ -29,6 +29,7 @@
 		font-size: 26px;
 		user-select: none;
 		border-radius: 100%;
+		user-select: none;
 	}
 	.selected:before {
 		content: ' ';
