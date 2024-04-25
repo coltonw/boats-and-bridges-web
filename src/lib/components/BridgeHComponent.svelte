@@ -5,7 +5,12 @@
 	const { n }: BridgeProps = $props();
 </script>
 
-<div class={`bridgeH ${n === 2 ? 'double' : ''}`}></div>
+<div class="bridgeH">
+	<div class="inner"></div>
+	{#if n >= 2}
+		<div class="inner double"></div>
+	{/if}
+</div>
 
 <style>
 	.bridgeH {
@@ -13,13 +18,23 @@
 		left: var(--left, 0);
 		top: var(--top, 0);
 		margin-left: 30px;
-		margin-top: 27px;
+		margin-top: 22px;
+		padding-left: 12px;
+		padding-right: 14px;
 		width: var(--width, 0);
-		height: 2px;
-		border-top: solid black 2px;
+		height: 12px;
+		box-sizing: border-box;
+		pointer-events: none;
 	}
 
-	.bridgeH.double {
-		border-bottom: solid black 2px;
+	.inner {
+		width: auto;
+		height: 4px;
+		background-image: url(/small_bridge_hor.png);
+		pointer-events: none;
+	}
+
+	.double {
+		margin-top: 4px;
 	}
 </style>

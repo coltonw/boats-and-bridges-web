@@ -1,4 +1,4 @@
-import { coordToOffset, islandCenterOffset, pxToCoord } from './mapping';
+import { coordToOffset, islandCenterOffsetX, islandCenterOffsetY, pxToCoord } from './mapping';
 import { addBridge, adjacent } from './utils';
 
 // Hopefully Svelte knows that this is a state change
@@ -157,8 +157,8 @@ export const gameBuilder = (levelParam: LevelData) => {
 			return;
 		}
 		const { offsetX, offsetY } = mouseOffset(event);
-		const left = coordToOffset(mouseDownIsland.x, 0, true) + islandCenterOffset();
-		const top = coordToOffset(mouseDownIsland.y) + islandCenterOffset();
+		const left = coordToOffset(mouseDownIsland.x, 0, true) + islandCenterOffsetX();
+		const top = coordToOffset(mouseDownIsland.y) + islandCenterOffsetY();
 		const adj = offsetX - left;
 		const opp = offsetY - top;
 		const rotate = adj >= 0 ? Math.atan(opp / adj) : Math.atan(opp / adj) + Math.PI;

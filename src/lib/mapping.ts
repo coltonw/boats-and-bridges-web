@@ -1,9 +1,9 @@
 let scale: number = 200;
 let offsetX: number = 0;
 const maxScale: number = 200;
-export const margin = 12;
-export const islandSize = 36;
-const clickBuffer = 4;
+export const margin = 11;
+export const islandSize = 35;
+const clickBuffer = 6;
 
 export const setScale = (level: LevelData, containerWidth: number, containerHeight: number) => {
 	let maxX = 0;
@@ -39,4 +39,5 @@ export const pxToCoord = (px: number, includeOffsetX: boolean = false) => {
 	return undefined;
 };
 
-export const islandCenterOffset = () => margin + islandSize / 2;
+export const islandCenterOffsetX = () => margin + Math.floor(islandSize) / 2;
+export const islandCenterOffsetY = () => margin + Math.floor(islandSize) / 2 - 2;

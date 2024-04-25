@@ -38,6 +38,9 @@
 		bind:this={appContainer}
 	>
 		{#key renderKey}
+			{#each game.level.islands as { x, y, b, n, selected }}
+				<IslandComponent {b} {n} {selected} --left={coordToPx(x, 0, true)} --top={coordToPx(y)} />
+			{/each}
 			{#if game.floatingBridge}
 				<FloatingBridgeComponent
 					--left={`${game.floatingBridge.left}px`}
@@ -61,9 +64,6 @@
 					--top={coordToPx(y0)}
 					--height={coordToPx(y1 - y0)}
 				/>
-			{/each}
-			{#each game.level.islands as { x, y, b, n, selected }}
-				<IslandComponent {b} {n} {selected} --left={coordToPx(x, 0, true)} --top={coordToPx(y)} />
 			{/each}
 		{/key}
 	</div>
