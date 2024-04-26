@@ -1,4 +1,11 @@
-<div class="bridge">
+<script lang="ts">
+	type FloatingBridgeProps = {
+		size?: 'large' | 'small' | 'tiny';
+	};
+	const { size = 'small' }: FloatingBridgeProps = $props();
+</script>
+
+<div class={`bridge ${size}`}>
 	<div class="inner"></div>
 </div>
 
@@ -7,16 +14,32 @@
 		position: absolute;
 		left: var(--left, 0);
 		top: var(--top, 0);
-		padding-left: 14px;
 		transform-origin: left center;
 		transform: rotate(var(--rotate));
 		width: var(--width, 0);
-		height: 4px;
 		pointer-events: none;
 		box-sizing: border-box;
 	}
+
 	.inner {
 		width: auto;
+		pointer-events: none;
+	}
+
+	.large {
+		padding-left: 28px;
+		height: 8px;
+	}
+	.large .inner {
+		height: 8px;
+		background-image: url(/large_bridge_hor.png);
+	}
+
+	.small {
+		padding-left: 14px;
+		height: 4px;
+	}
+	.small .inner {
 		height: 4px;
 		background-image: url(/small_bridge_hor.png);
 	}

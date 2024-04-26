@@ -9,10 +9,10 @@
 	const { data }: { data: LevelData } = $props();
 	const game = $derived(gameBuilder(data));
 	const victory = $derived(checkVictory(game.level));
-	let renderKey: number | undefined = $state();
+	let scale: { key: number; size: 'large' | 'small' | 'tiny' } | undefined = $state();
 	let appContainer: HTMLDivElement;
 	$effect(() => {
-		renderKey = setScale(game.level, appContainer.offsetWidth, appContainer.offsetHeight);
+		scale = setScale(game.level, appContainer.offsetWidth, appContainer.offsetHeight);
 	});
 </script>
 
@@ -37,12 +37,20 @@
 		role="application"
 		bind:this={appContainer}
 	>
-		{#key renderKey}
+		{#key scale?.key}
 			{#each game.level.islands as { x, y, b, n, selected }}
-				<IslandComponent {b} {n} {selected} --left={coordToPx(x, 0, true)} --top={coordToPx(y)} />
+				<IslandComponent
+					{b}
+					{n}
+					{selected}
+					size={scale?.size}
+					--left={coordToPx(x, 0, true)}
+					--top={coordToPx(y)}
+				/>
 			{/each}
 			{#if game.floatingBridge}
 				<FloatingBridgeComponent
+					size={scale?.size}
 					--left={`${game.floatingBridge.left}px`}
 					--top={`${game.floatingBridge.top}px`}
 					--width={`${game.floatingBridge.width}px`}
@@ -52,6 +60,7 @@
 			{#each game.level.bridgesH as { x0, x1, y, n }}
 				<BridgeHComponent
 					{n}
+					size={scale?.size}
 					--left={coordToPx(x0, 0, true)}
 					--top={coordToPx(y)}
 					--width={coordToPx(x1 - x0)}
@@ -60,6 +69,7 @@
 			{#each game.level.bridgesV as { x, y0, y1, n }}
 				<BridgeVComponent
 					{n}
+					size={scale?.size}
 					--left={coordToPx(x, 0, true)}
 					--top={coordToPx(y0)}
 					--height={coordToPx(y1 - y0)}
