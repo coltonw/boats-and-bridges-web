@@ -38,7 +38,7 @@
 
 	.large .inner {
 		height: 8px;
-		background-image: url(/large_bridge_hor.png);
+		background-image: url(/bridge_hor_large.png);
 	}
 
 	.large .double {
@@ -55,7 +55,7 @@
 
 	.small .inner {
 		height: 4px;
-		background-image: url(/small_bridge_hor.png);
+		background-image: url(/bridge_hor_small.png);
 	}
 
 	.small .double {

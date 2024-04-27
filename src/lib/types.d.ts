@@ -27,9 +27,21 @@ type FloatingBridge = {
 	rotate: number;
 };
 
+type BoatDock = {
+	boat: {
+		x: number;
+		y: number;
+	};
+	dock: {
+		x: number;
+		y: number;
+	};
+};
+
 type LevelData = {
 	name: string;
 	islands: Island[];
+	boats: BoatDock[];
 	bridgesH: BridgeH[];
 	bridgesV: BridgeV[];
 	solution: {

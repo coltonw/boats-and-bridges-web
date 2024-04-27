@@ -3,9 +3,10 @@
 	import BridgeHComponent from '$lib/components/BridgeHComponent.svelte';
 	import BridgeVComponent from '$lib/components/BridgeVComponent.svelte';
 	import FloatingBridgeComponent from '$lib/components/FloatingBridgeComponent.svelte';
-	import { coordToPx, setScale } from '$lib/mapping';
+	import { coordToOffset, coordToPx, setScale } from '$lib/mapping';
 	import { gameBuilder } from '$lib/game.svelte';
 	import { checkVictory } from '$lib/utils';
+	import BoatComponent from '$lib/components/BoatComponent.svelte';
 	const { data }: { data: LevelData } = $props();
 	const game = $derived(gameBuilder(data));
 	const victory = $derived(checkVictory(game.level));
@@ -73,6 +74,13 @@
 					--left={coordToPx(x, 0, true)}
 					--top={coordToPx(y0)}
 					--height={coordToPx(y1 - y0)}
+				/>
+			{/each}
+			{#each game.level.boats as { boat, dock }}
+				<BoatComponent
+					size={scale?.size}
+					--left={coordToPx(boat.x, coordToOffset(0.5), true)}
+					--top={coordToPx(boat.y, coordToOffset(0.5))}
 				/>
 			{/each}
 		{/key}

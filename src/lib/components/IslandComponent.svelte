@@ -22,19 +22,19 @@
 		background-repeat: no-repeat;
 	}
 	.island.large {
-		background-image: url(/large_island.png);
+		background-image: url(/island_large.png);
 		margin: 12px;
 		height: 93px;
 		width: 93px;
 	}
 	.island.small {
-		background-image: url(/small_island.png);
+		background-image: url(/island_small.png);
 		margin: 6px;
 		height: 47px;
 		width: 47px;
 	}
 	.island.tiny {
-		background-image: url(/small_island.png);
+		background-image: url(/island_small.png);
 		margin: 6px;
 		height: 47px;
 		width: 47px;

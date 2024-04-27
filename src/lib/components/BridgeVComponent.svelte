@@ -42,7 +42,7 @@
 
 	.large .inner {
 		width: 8px;
-		background-image: url(/large_bridge_vert.png);
+		background-image: url(/bridge_vert_large.png);
 	}
 
 	.large .double {
@@ -59,7 +59,7 @@
 
 	.small .inner {
 		width: 4px;
-		background-image: url(/small_bridge_vert.png);
+		background-image: url(/bridge_vert_small.png);
 	}
 
 	.small .double {
