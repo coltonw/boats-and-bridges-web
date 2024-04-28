@@ -13,19 +13,22 @@
 		left: var(--left, 0);
 		top: var(--top, 0);
 		background-repeat: no-repeat;
+		pointer-events: none;
 	}
 	.boat.large {
 		background-image: url(/sailboat_large.png);
-		width: 90px;
-		height: 100px;
+		margin: 30px;
+		width: 51px;
+		height: 57px;
 	}
 	.boat.small {
-		background-image: url(/boat_small.png);
-		width: 45px;
-		height: 50px;
+		background-image: url(/sailboat_small.png);
+		margin: 15px;
+		width: 26px;
+		height: 29px;
 	}
 	.boat.tiny {
-		background-image: url(/boat_small.png);
+		background-image: url(/sailboat_tiny.png);
 		width: 18px;
 		height: 20px;
 	}

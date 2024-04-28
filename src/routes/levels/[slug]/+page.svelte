@@ -7,6 +7,7 @@
 	import { gameBuilder } from '$lib/game.svelte';
 	import { checkVictory } from '$lib/utils';
 	import BoatComponent from '$lib/components/BoatComponent.svelte';
+	import DockComponent from '$lib/components/DockComponent.svelte';
 	const { data }: { data: LevelData } = $props();
 	const game = $derived(gameBuilder(data));
 	const victory = $derived(checkVictory(game.level));
@@ -77,6 +78,11 @@
 				/>
 			{/each}
 			{#each game.level.boats as { boat, dock }}
+				<DockComponent
+					size={scale?.size}
+					--left={coordToPx(dock.x, 0, true)}
+					--top={coordToPx(dock.y)}
+				/>
 				<BoatComponent
 					size={scale?.size}
 					--left={coordToPx(boat.x, coordToOffset(0.5), true)}
@@ -113,6 +119,5 @@
 		flex-grow: 1;
 
 		box-sizing: border-box;
-		border: 1px solid rgba(198, 242, 255, 0.5); /* turn off later in development */
 	}
 </style>

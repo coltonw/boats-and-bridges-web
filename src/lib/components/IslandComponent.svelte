@@ -21,6 +21,11 @@
 		top: var(--top, 0);
 		background-repeat: no-repeat;
 	}
+	.island p {
+		position: relative;
+		z-index: 10;
+	}
+
 	.island.large {
 		background-image: url(/island_large.png);
 		margin: 12px;
@@ -41,9 +46,9 @@
 	}
 	.island.large p {
 		margin: 0;
-		padding-top: 12px;
-		padding-right: 3px;
-		font-size: 50px;
+		padding-top: 10px;
+		padding-right: 5px;
+		font-size: 54px;
 		text-align: center;
 		user-select: none;
 	}
@@ -51,7 +56,7 @@
 		margin: 0;
 		padding-top: 5px;
 		padding-right: 2px;
-		font-size: 26px;
+		font-size: 28px;
 		text-align: center;
 		user-select: none;
 	}
