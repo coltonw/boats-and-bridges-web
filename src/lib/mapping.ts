@@ -20,7 +20,7 @@ const size = () => {
 	if (scale < 40) {
 		size = 'tiny';
 	}
-	if (scale > 100) {
+	if (scale > 120) {
 		size = 'large';
 	}
 	return size;
@@ -37,7 +37,7 @@ export const setScale = (level: LevelData, containerWidth: number, containerHeig
 	const maxHeight = containerHeight - 2 * margin() - islandSize();
 	scale = Math.min(Math.min(Math.floor(maxWidth / maxX), Math.floor(maxHeight / maxY)), maxScale);
 	offsetX = (maxWidth - maxX * scale) / 2;
-
+	console.log(scale);
 	return {
 		// a key used to determine when a re-render needs to happen
 		key: scale * 1000 + offsetX,

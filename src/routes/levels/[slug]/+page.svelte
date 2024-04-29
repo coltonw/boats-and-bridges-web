@@ -16,6 +16,7 @@
 	$effect(() => {
 		scale = setScale(game.level, appContainer.offsetWidth, appContainer.offsetHeight);
 	});
+	const colorArray: ('red' | 'green' | 'blue')[] = ['red', 'green', 'blue'];
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions a11y-click-events-have-key-events -->
@@ -77,14 +78,16 @@
 					--height={coordToPx(y1 - y0)}
 				/>
 			{/each}
-			{#each game.level.boats as { boat, dock }}
+			{#each game.level.boats as { boat, dock }, i}
 				<DockComponent
 					size={scale?.size}
+					color={game.level.boats.length > 1 ? colorArray[i] : undefined}
 					--left={coordToPx(dock.x, 0, true)}
 					--top={coordToPx(dock.y)}
 				/>
 				<BoatComponent
 					size={scale?.size}
+					color={game.level.boats.length > 1 ? colorArray[i] : undefined}
 					--left={coordToPx(boat.x, coordToOffset(0.5), true)}
 					--top={coordToPx(boat.y, coordToOffset(0.5))}
 				/>
