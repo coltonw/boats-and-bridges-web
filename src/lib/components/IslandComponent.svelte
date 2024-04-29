@@ -46,7 +46,6 @@
 	}
 	.island.large p {
 		margin: 0;
-		padding-top: 10px;
 		padding-right: 5px;
 		font-size: 54px;
 		text-align: center;
@@ -54,7 +53,6 @@
 	}
 	.island.small p {
 		margin: 0;
-		padding-top: 5px;
 		padding-right: 2px;
 		font-size: 28px;
 		text-align: center;
