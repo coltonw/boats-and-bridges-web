@@ -8,6 +8,8 @@
 	import { checkVictory } from '$lib/utils';
 	import BoatComponent from '$lib/components/BoatComponent.svelte';
 	import DockComponent from '$lib/components/DockComponent.svelte';
+	import GarageComponent from '$lib/components/GarageComponent.svelte';
+	import TruckComponent from '$lib/components/TruckComponent.svelte';
 	const { data }: { data: LevelData } = $props();
 	const game = $derived(gameBuilder(data));
 	const victory = $derived(checkVictory(game.level));
@@ -21,10 +23,7 @@
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions a11y-click-events-have-key-events -->
 <div class="container">
-	<h1 class="name shadow wood">{data.name}</h1>
-	<div class="name-container">
-		<h1 class="name wood-texture">{data.name}</h1>
-	</div>
+	<h1 class="name">{data.name}</h1>
 	<div class="nav">
 		{#if data.previousUri}
 			<a href={data.previousUri}>Prev</a>
@@ -95,6 +94,20 @@
 					--top={coordToPx(boat.y, coordToOffset(0.5))}
 				/>
 			{/each}
+			{#each game.level.trucks as { truck, garage }, i}
+				<GarageComponent
+					size={scale?.size}
+					color={game.level.trucks.length > 1 ? colorArray[i] : undefined}
+					--left={coordToPx(garage.x, 0, true)}
+					--top={coordToPx(garage.y)}
+				/>
+				<TruckComponent
+					size={scale?.size}
+					color={game.level.trucks.length > 1 ? colorArray[i] : undefined}
+					--left={coordToPx(truck.x, 0, true)}
+					--top={coordToPx(truck.y)}
+				/>
+			{/each}
 		{/key}
 	</div>
 </div>
@@ -109,57 +122,8 @@
 	}
 	.name {
 		color: white;
-		font-weight: bold;
-	}
-	.name.shadow {
-		position: absolute;
-		z-index: 5;
-		color: #e2ded3;
-		text-shadow:
-			#bfb69e 1px 1px 0,
-			#9d8f6a 2px 2px 0,
-			#696045 3px 3px 0,
-			#353023 4px 4px 0,
-			#042940 0 0 12px;
-	}
-	.name.red {
-		text-shadow:
-			#f4a8b4 1px 1px 0,
-			#e9506a 2px 2px 0,
-			#bf1834 3px 3px 0,
-			#680d1c 4px 4px 0,
-			black 9px 9px 2px,
-			#042940 0 0 12px;
-	}
-	.name.sand {
-		text-shadow:
-			#fbdea9 1px 1px 0,
-			#f7bd53 2px 2px 0,
-			#e5980b 3px 3px 0,
-			#8f5f07 4px 4px 0,
-			black 9px 9px 2px,
-			#042940 0 0 12px;
-	}
-	.name.blue {
-		text-shadow:
-			#aeddfa 1px 1px 0,
-			#5ebbf6 2px 2px 0,
-			#0e99f1 3px 3px 0,
-			#0966a1 4px 4px 0,
-			black 9px 9px 2px,
-			#042940 0 0 12px;
-	}
-	.name-container {
-		position: relative;
-		z-index: 10;
-		background: url(/wood.jpg) no-repeat center center;
-		background-size: cover;
-		color: #fff;
-		-webkit-text-fill-color: transparent;
-		-webkit-background-clip: text;
-	}
-	.name.wood-texture {
-		text-shadow: 0 0 1px rgba(255, 255, 255, 0.3);
+		font-weight: 500;
+		text-shadow: black 4px 4px 2px;
 	}
 	.nav {
 		height: 28px;

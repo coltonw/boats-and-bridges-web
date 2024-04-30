@@ -38,10 +38,22 @@ type BoatDock = {
 	};
 };
 
+type TruckGarage = {
+	truck: {
+		x: number;
+		y: number;
+	};
+	garage: {
+		x: number;
+		y: number;
+	};
+};
+
 type LevelData = {
 	name: string;
 	islands: Island[];
 	boats: BoatDock[];
+	trucks: TruckGarage[];
 	bridgesH: BridgeH[];
 	bridgesV: BridgeV[];
 	solution: {
