@@ -1,3 +1,5 @@
+/// <reference types="unplugin-icons/types/svelte" />
+
 type Island = {
 	x: number;
 	y: number;

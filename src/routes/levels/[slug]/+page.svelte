@@ -1,4 +1,7 @@
 <script lang="ts">
+	import IconUndo from 'virtual:icons/ion/arrow-undo';
+	import IconBack from 'virtual:icons/ion/caret-back-circle';
+	import IconForward from 'virtual:icons/ion/caret-forward-circle';
 	import IslandComponent from '$lib/components/IslandComponent.svelte';
 	import BridgeHComponent from '$lib/components/BridgeHComponent.svelte';
 	import BridgeVComponent from '$lib/components/BridgeVComponent.svelte';
@@ -28,10 +31,13 @@
 	<h1 class="name">{data.name}</h1>
 	<div class="nav">
 		{#if data.previousUri}
-			<a href={data.previousUri}>Prev</a>
+			<a href={data.previousUri}><IconBack class="game-nav-icon" /></a>
 		{/if}
-		{#if data.nextUri && victory}
-			<a href={data.nextUri}>Next</a>
+		<button onclick={game.undoHandler}>
+			<IconUndo class="game-nav-icon" />
+		</button>
+		{#if data.nextUri}
+			<a href={data.nextUri}><IconForward class="game-nav-icon" /></a>
 		{/if}
 	</div>
 	<div
@@ -128,10 +134,29 @@
 		text-shadow: black 4px 4px 2px;
 	}
 	.nav {
-		height: 28px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		height: 2.2em;
 	}
-	.nav > a {
+	.nav > :not(:last-child) {
+		margin-right: 0.5em;
+	}
+	.nav > button {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background-color: transparent;
+	}
+	:global(.game-nav-icon) {
+		font-size: 2em;
 		color: white;
+		filter: drop-shadow(4px 4px 1px rgba(0, 0, 0, 1));
+	}
+	:global(.game-nav-icon:active) {
+		font-size: 2em;
+		color: lightblue;
+		filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 1));
 	}
 	.level-container {
 		position: relative;
