@@ -1,9 +1,66 @@
 import { coordToOffset, islandCenterOffsetX, islandCenterOffsetY, pxToCoord } from './mapping';
 import { addBridge, adjacent } from './utils';
 
+const inverseChange = (level: LevelData, change: LevelChange): LevelChange => {
+	const undoChange: LevelChange = {};
+	if (change.add?.bridgesH) {
+		undoChange.remove = { ...undoChange.remove };
+		undoChange.remove.bridgesH = [...change.add.bridgesH];
+	}
+	if (change.add?.bridgesV) {
+		undoChange.remove = { ...undoChange.remove };
+		undoChange.remove.bridgesV = [...change.add.bridgesV];
+	}
+	if (change.remove?.bridgesH) {
+		undoChange.add = { ...undoChange.remove };
+		undoChange.add.bridgesH = [...change.remove.bridgesH];
+	}
+	if (change.remove?.bridgesV) {
+		undoChange.add = { ...undoChange.remove };
+		undoChange.add.bridgesV = [...change.remove.bridgesV];
+	}
+	if (change.update?.islands) {
+		undoChange.update = { ...undoChange.update };
+		undoChange.update.islands = level.islands.flatMap((i) => {
+			const foundUpdate = change.update?.islands?.find((uI) => i.x === uI.x && i.y === uI.y);
+			if (foundUpdate) {
+				return [i];
+			}
+			return [];
+		});
+	}
+	if (change.update?.bridgesH) {
+		undoChange.update = { ...undoChange.update };
+		undoChange.update.bridgesH = level.bridgesH.flatMap((bH) => {
+			const foundUpdate = change.update?.bridgesH?.find(
+				(uBH) => bH.x0 === uBH.x0 && bH.x1 === uBH.x1 && bH.y === uBH.y
+			);
+			if (foundUpdate) {
+				return [bH];
+			}
+			return [];
+		});
+	}
+	if (change.update?.bridgesV) {
+		undoChange.update = { ...undoChange.update };
+		undoChange.update.bridgesV = level.bridgesV.flatMap((bV) => {
+			const foundUpdate = change.update?.bridgesV?.find(
+				(uBV) => bV.x === uBV.x && bV.y0 === uBV.y0 && bV.y1 === uBV.y1
+			);
+			if (foundUpdate) {
+				return [bV];
+			}
+			return [];
+		});
+	}
+	return undoChange;
+};
+
 // Hopefully Svelte knows that this is a state change
-const updateLevel = (level: LevelData, change: LevelChange) => {
-	console.log(change);
+const updateLevel = (level: LevelData, change: LevelChange, skipInverse: boolean = false) => {
+	if (!skipInverse) {
+		level.undoStack = [...level.undoStack, inverseChange(level, change)];
+	}
 	if (change.add?.bridgesH) {
 		level.bridgesH = [...level.bridgesH, ...change.add.bridgesH];
 	}
@@ -57,7 +114,14 @@ const updateLevel = (level: LevelData, change: LevelChange) => {
 			return bV;
 		});
 	}
-	console.log(level.bridgesH);
+};
+
+const undo = (level: LevelData) => {
+	if (level.undoStack.length > 0) {
+		const undoChange = level.undoStack[level.undoStack.length - 1];
+		updateLevel(level, undoChange, true);
+		level.undoStack = level.undoStack.slice(0, level.undoStack.length - 1);
+	}
 };
 
 const selectIsland = (level: LevelData, island: Island) => {
@@ -138,7 +202,6 @@ export const gameBuilder = (levelParam: LevelData) => {
 						(island) => island.x === mouseDownIsland?.x && island.y === mouseDownIsland?.y
 					);
 					if (prevSelect && adjacent(level, prevSelect, newSelect)) {
-						console.log(prevSelect.x, newSelect.x);
 						const change = addBridge(level, prevSelect, newSelect);
 						updateLevel(level, change);
 					}
@@ -171,6 +234,29 @@ export const gameBuilder = (levelParam: LevelData) => {
 		};
 	};
 
+	const keydownHandler = (event: KeyboardEvent) => {
+		if ((event.ctrlKey || event.metaKey) && event.key === 'z') {
+			undo(level);
+		}
+	};
+
+	const undoHandler = () => {
+		undo(level);
+	};
+
+	const resetHandler = () => {
+		const change: LevelChange = {
+			remove: {
+				bridgesH: level.bridgesH,
+				bridgesV: level.bridgesV
+			},
+			update: {
+				islands: level.islands.map((island) => ({ ...island, n: 0 }))
+			}
+		};
+		updateLevel(level, change);
+	};
+
 	const leaveHandler = () => {
 		mouseDownIsland = undefined;
 		mouseUpIsland = undefined;
@@ -186,6 +272,9 @@ export const gameBuilder = (levelParam: LevelData) => {
 		},
 		clickHandler,
 		moveHandler,
-		leaveHandler
+		leaveHandler,
+		keydownHandler,
+		undoHandler,
+		resetHandler
 	};
 };

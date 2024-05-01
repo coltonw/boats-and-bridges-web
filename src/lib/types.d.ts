@@ -49,21 +49,6 @@ type TruckGarage = {
 	};
 };
 
-type LevelData = {
-	name: string;
-	islands: Island[];
-	boats: BoatDock[];
-	trucks: TruckGarage[];
-	bridgesH: BridgeH[];
-	bridgesV: BridgeV[];
-	solution: {
-		bridgesH: BridgeH[];
-		bridgesV: BridgeV[];
-	};
-	previousUri?: string;
-	nextUri?: string;
-};
-
 type LevelChange = {
 	add?: {
 		bridgesH?: BridgeH[];
@@ -78,4 +63,20 @@ type LevelChange = {
 		bridgesH?: BridgeH[];
 		bridgesV?: BridgeV[];
 	};
+};
+
+type LevelData = {
+	name: string;
+	islands: Island[];
+	boats: BoatDock[];
+	trucks: TruckGarage[];
+	bridgesH: BridgeH[];
+	bridgesV: BridgeV[];
+	undoStack: LevelChange[];
+	solution: {
+		bridgesH: BridgeH[];
+		bridgesV: BridgeV[];
+	};
+	previousUri?: string;
+	nextUri?: string;
 };

@@ -21,6 +21,8 @@
 	const colorArray: ('red' | 'green' | 'blue')[] = ['red', 'green', 'blue'];
 </script>
 
+<svelte:window on:keydown={game.keydownHandler} />
+
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions a11y-click-events-have-key-events -->
 <div class="container">
 	<h1 class="name">{data.name}</h1>

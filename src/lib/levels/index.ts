@@ -118,6 +118,7 @@ const levels: LevelData[] = [
 	level058
 ];
 levels.forEach((level, i) => {
+	level.undoStack = [];
 	if (i > 0) {
 		level.previousUri = `/levels/${i}`;
 	}
