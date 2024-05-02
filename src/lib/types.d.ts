@@ -51,6 +51,11 @@ type TruckGarage = {
 	};
 };
 
+type Pirate = {
+	x: number;
+	y: number;
+};
+
 type LevelChange = {
 	add?: {
 		bridgesH?: BridgeH[];
@@ -72,6 +77,7 @@ type LevelData = {
 	islands: Island[];
 	boats: BoatDock[];
 	trucks: TruckGarage[];
+	pirates: Pirate[];
 	bridgesH: BridgeH[];
 	bridgesV: BridgeV[];
 	undoStack: LevelChange[];

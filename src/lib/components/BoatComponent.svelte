@@ -11,6 +11,7 @@
 <style>
 	.boat {
 		position: absolute;
+		z-index: 5;
 		left: var(--left, 0);
 		top: var(--top, 0);
 		background-repeat: no-repeat;
@@ -51,4 +52,24 @@
 		width: 18px;
 		height: 20px;
 	}
+	/* .boat.large {
+		animation: 4s linear 0s infinite normal bob;
+	}
+	@keyframes bob {
+		0% {
+			transform: translateY(0) rotate(0);
+		}
+		20% {
+			transform: translateY(2px) rotate(-5deg);
+		}
+		40% {
+			transform: translateY(4px) rotate(0);
+		}
+		70% {
+			transform: translateY(2px) rotate(5deg);
+		}
+		100% {
+			transform: translateY(0) rotate(0);
+		}
+	} */
 </style>

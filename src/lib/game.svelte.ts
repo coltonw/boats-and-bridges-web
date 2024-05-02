@@ -1,4 +1,5 @@
 import { coordToOffset, islandCenterOffsetX, islandCenterOffsetY, pxToCoord } from './mapping';
+import { saveLevel } from './storage';
 import { addBridge, adjacent } from './utils';
 
 const inverseChange = (level: LevelData, change: LevelChange): LevelChange => {
@@ -12,11 +13,11 @@ const inverseChange = (level: LevelData, change: LevelChange): LevelChange => {
 		undoChange.remove.bridgesV = [...change.add.bridgesV];
 	}
 	if (change.remove?.bridgesH) {
-		undoChange.add = { ...undoChange.remove };
+		undoChange.add = { ...undoChange.add };
 		undoChange.add.bridgesH = [...change.remove.bridgesH];
 	}
 	if (change.remove?.bridgesV) {
-		undoChange.add = { ...undoChange.remove };
+		undoChange.add = { ...undoChange.add };
 		undoChange.add.bridgesV = [...change.remove.bridgesV];
 	}
 	if (change.update?.islands) {
@@ -114,6 +115,17 @@ const updateLevel = (level: LevelData, change: LevelChange, skipInverse: boolean
 			return bV;
 		});
 	}
+	saveLevel(level);
+};
+
+const updateSelection = (level: LevelData, select?: Island) => {
+	level.islands = level.islands.map((i) => {
+		if (select && i.x === select.x && i.y === select.y) {
+			return { ...i, selected: !i.selected };
+		} else {
+			return { ...i, selected: false };
+		}
+	});
 };
 
 const undo = (level: LevelData) => {
@@ -137,13 +149,7 @@ const selectIsland = (level: LevelData, island: Island) => {
 	if (change) {
 		updateLevel(level, change);
 	} else {
-		level.islands = level.islands.map((i) => {
-			if (i.x === island.x && i.y === island.y) {
-				return { ...i, selected: !i.selected };
-			} else {
-				return { ...i, selected: false };
-			}
-		});
+		updateSelection(level, island);
 	}
 };
 
@@ -190,6 +196,7 @@ export const gameBuilder = (levelParam: LevelData) => {
 					mouseDownIsland.y === mouseUpIsland.y &&
 					mouseDownIsland.y === newSelect.y
 				) {
+					// click island
 					selectIsland(level, mouseDownIsland);
 				} else if (
 					mouseDownIsland &&
@@ -198,6 +205,7 @@ export const gameBuilder = (levelParam: LevelData) => {
 					mouseUpIsland.x === newSelect.x &&
 					mouseUpIsland.y === newSelect.y
 				) {
+					// drag and drop
 					const prevSelect = level.islands.find(
 						(island) => island.x === mouseDownIsland?.x && island.y === mouseDownIsland?.y
 					);
@@ -205,6 +213,7 @@ export const gameBuilder = (levelParam: LevelData) => {
 						const change = addBridge(level, prevSelect, newSelect);
 						updateLevel(level, change);
 					}
+					updateSelection(level);
 				}
 			}
 		}
