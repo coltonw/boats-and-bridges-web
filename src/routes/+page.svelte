@@ -14,7 +14,7 @@
 </script>
 
 <div class="main">
-	<a href="/settings" class="options"><IconSettings class="game-nav-icon" /></a>
+	<a href="/settings" class="options"><IconSettings class="icon-button" /></a>
 	<h1 class="title">Boats and Bridges</h1>
 	{#each levelGroups as levelGroup}
 		<div class="level-group">
@@ -112,16 +112,5 @@
 	.archipelagos a {
 		color: black;
 		text-decoration: none;
-	}
-
-	:global(.level-select-icon-button) {
-		font-size: 2em;
-		color: white;
-		filter: drop-shadow(0.125em 0.125em 0.06em rgba(0, 0, 0, 1));
-	}
-	:global(.level-select-icon-button:active) {
-		font-size: 2em;
-		color: lightblue;
-		filter: drop-shadow(0.06em 0.06em 0.06em rgba(0, 0, 0, 1));
 	}
 </style>

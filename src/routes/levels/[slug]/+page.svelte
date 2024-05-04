@@ -4,8 +4,6 @@
 	import IconBack from 'virtual:icons/ion/caret-back-circle';
 	import IconForward from 'virtual:icons/ion/caret-forward-circle';
 	import IconUp from 'virtual:icons/ion/caret-up-circle';
-	import IconDown from 'virtual:icons/ion/caret-down-circle';
-	import IconCheckmark from 'virtual:icons/ion/checkmark-circle';
 	import IslandComponent from '$lib/components/IslandComponent.svelte';
 	import BridgeHComponent from '$lib/components/BridgeHComponent.svelte';
 	import BridgeVComponent from '$lib/components/BridgeVComponent.svelte';
@@ -26,6 +24,7 @@
 	import GarageComponent from '$lib/components/GarageComponent.svelte';
 	import TruckComponent from '$lib/components/TruckComponent.svelte';
 	import PirateComponent from '$lib/components/PirateComponent.svelte';
+	import VictoryScreen from '$lib/components/VictoryScreen.svelte';
 
 	const { data }: { data: LevelData } = $props();
 	const game = $derived(gameBuilder(data));
@@ -80,19 +79,19 @@
 		<h1 class="name">{data.name}</h1>
 		<div class="nav">
 			{#if data.previousUri}
-				<a href={data.previousUri}><IconBack class="game-nav-icon" /></a>
+				<a href={data.previousUri}><IconBack class="icon-button" /></a>
 			{:else}
 				<div class="nav-spacer"></div>
 			{/if}
 			<button onclick={game.resetHandler}>
-				<IconRefresh class="game-nav-icon" />
+				<IconRefresh class="icon-button" />
 			</button>
 			<button onclick={game.undoHandler}>
-				<IconUndo class="game-nav-icon" />
+				<IconUndo class="icon-button" />
 			</button>
-			<a href="/"><IconUp class="game-nav-icon" /></a>
+			<a href="/"><IconUp class="icon-button" /></a>
 			{#if data.nextUri}
-				<a href={data.nextUri}><IconForward class="game-nav-icon" /></a>
+				<a href={data.nextUri}><IconForward class="icon-button" /></a>
 			{:else}
 				<div class="nav-spacer"></div>
 			{/if}
@@ -193,33 +192,17 @@
 </div>
 
 {#if victory && !dismissed}
-	<div class="victory-screen">
-		<div></div>
-		<div class="victory-content">
-			<div class="name">{game.level.name}</div>
-			<div class="tip">{unlockedNewSection ? 'Unlocked next area' : ''}</div>
-			<div class="nav">
-				<button
-					onclick={() => {
-						dismissed = true;
-					}}
-				>
-					<IconDown class="game-nav-icon" />
-				</button>
-				<button onclick={game.resetHandler}>
-					<IconRefresh class="game-nav-icon" />
-				</button>
-				<a href="/"><IconUp class="game-nav-icon" /></a>
-				{#if data.nextUri}
-					<a href={data.nextUri}><IconForward class="game-nav-icon" /></a>
-				{:else}
-					<a href="https://www.youtube.com/watch?v=T1XgFsitnQw">
-						<IconCheckmark class="game-nav-icon" />
-					</a>
-				{/if}
-			</div>
-		</div>
-	</div>
+	<VictoryScreen
+		name={data.name}
+		unlockedNextLevel={true}
+		unlockedNextArea={!!unlockedNewSection}
+		beatGame={true}
+		onDismiss={() => {
+			dismissed = true;
+		}}
+		onReset={game.resetHandler}
+		nextUri={data.nextUri}
+	/>
 {/if}
 
 <style>
@@ -230,15 +213,8 @@
 		width: 100%;
 		height: 100%;
 	}
-	.name {
-		color: white;
-		font-weight: 500;
-		text-shadow: black 0.125em 0.125em 0.06em;
-	}
 	.tip {
-		color: white;
 		font-weight: 400;
-		text-shadow: black 0.125em 0.125em 0.06em;
 	}
 	.nav {
 		display: flex;
@@ -261,16 +237,6 @@
 		font-size: inherit;
 		cursor: pointer;
 	}
-	:global(.game-nav-icon) {
-		font-size: 2em;
-		color: white;
-		filter: drop-shadow(0.125em 0.125em 0.06em rgba(0, 0, 0, 1));
-	}
-	:global(.game-nav-icon:active) {
-		font-size: 2em;
-		color: lightblue;
-		filter: drop-shadow(0.06em 0.06em 0.06em rgba(0, 0, 0, 1));
-	}
 	.level-container {
 		position: relative;
 		width: 100%;
@@ -278,29 +244,5 @@
 		flex-grow: 1;
 
 		box-sizing: border-box;
-	}
-	.victory-screen {
-		position: absolute;
-		left: 0;
-		top: 0;
-		z-index: 20;
-		width: 100vw;
-		height: 100vh;
-		background-image: url(/victory.jpg);
-		background-size: cover;
-		background-position: center;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: space-evenly;
-		font-size: 3em;
-	}
-	.victory-content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-	.victory-content .name {
-		margin-bottom: 0.5em;
 	}
 </style>

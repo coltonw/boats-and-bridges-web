@@ -10,7 +10,7 @@
 			reseting = true;
 		}}>Clear All Data</button
 	>
-	<a href="/"><IconBack class="settings-icon-button" /></a>
+	<a href="/"><IconBack class="icon-button" /></a>
 </div>
 
 {#if reseting}
@@ -41,11 +41,6 @@
 		align-items: center;
 		align-content: center;
 	}
-	.title {
-		color: white;
-		font-weight: 500;
-		text-shadow: black 0.125em 0.125em 0.06em;
-	}
 	button {
 		border-radius: 10px;
 		border-width: 5px;
@@ -55,16 +50,6 @@
 		text-shadow: black 0.125em 0.125em 0.06em;
 		font-size: 18px;
 		margin-bottom: 20px;
-	}
-	:global(.settings-icon-button) {
-		font-size: 2em;
-		color: white;
-		filter: drop-shadow(0.125em 0.125em 0.06em rgba(0, 0, 0, 1));
-	}
-	:global(.settings-icon-button:active) {
-		font-size: 2em;
-		color: lightblue;
-		filter: drop-shadow(0.06em 0.06em 0.06em rgba(0, 0, 0, 1));
 	}
 	.overlay {
 		position: absolute;

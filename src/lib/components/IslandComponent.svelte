@@ -42,6 +42,8 @@
 	.island p {
 		position: relative;
 		z-index: 10;
+		color: black;
+		text-shadow: none;
 	}
 
 	.island.large {
@@ -96,10 +98,12 @@
 		bottom: -4px;
 		border: 4px solid white;
 	}
-	.done {
+	.done,
+	.island.done p {
 		color: #df8e00;
 	}
-	.negative {
+	.negative,
+	.island.negative p {
 		color: #cc0000;
 	}
 	.island.error {
