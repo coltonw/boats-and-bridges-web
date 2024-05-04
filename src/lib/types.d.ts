@@ -1,5 +1,10 @@
 /// <reference types="unplugin-icons/types/svelte" />
 
+type Coordinates = {
+	x: number;
+	y: number;
+};
+
 type Island = {
 	x: number;
 	y: number;
@@ -73,6 +78,7 @@ type LevelChange = {
 };
 
 type LevelData = {
+	id: string;
 	name: string;
 	islands: Island[];
 	boats: BoatDock[];
@@ -81,10 +87,28 @@ type LevelData = {
 	bridgesH: BridgeH[];
 	bridgesV: BridgeV[];
 	undoStack: LevelChange[];
+	loaded?: boolean;
 	solution: {
 		bridgesH: BridgeH[];
 		bridgesV: BridgeV[];
 	};
+	tip?: string;
+	loaded?: boolean;
 	previousUri?: string;
 	nextUri?: string;
+};
+
+type LevelStatus = {
+	id: string;
+	optional?: boolean;
+};
+
+type LevelGroup = {
+	name: string;
+	unlock: number;
+	levels: LevelStatus[];
+};
+
+type VictoryData = {
+	[id: string]: boolean;
 };

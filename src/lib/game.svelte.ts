@@ -254,16 +254,18 @@ export const gameBuilder = (levelParam: LevelData) => {
 	};
 
 	const resetHandler = () => {
-		const change: LevelChange = {
-			remove: {
-				bridgesH: level.bridgesH,
-				bridgesV: level.bridgesV
-			},
-			update: {
-				islands: level.islands.map((island) => ({ ...island, n: 0 }))
-			}
-		};
-		updateLevel(level, change);
+		if (level.bridgesH.length > 0 || level.bridgesV.length > 0) {
+			const change: LevelChange = {
+				remove: {
+					bridgesH: level.bridgesH,
+					bridgesV: level.bridgesV
+				},
+				update: {
+					islands: level.islands.map((island) => ({ ...island, n: 0 }))
+				}
+			};
+			updateLevel(level, change);
+		}
 	};
 
 	const leaveHandler = () => {

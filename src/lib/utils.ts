@@ -1,6 +1,6 @@
 const bridgesLeft = (island: Island) => (island.b || 8) - island.n;
 
-const vertAdjacent = (level: LevelData, island0: Island, island1: Island) => {
+const vertAdjacent = (level: LevelData, island0: Coordinates, island1: Coordinates) => {
 	if (island0.x === island1.x && island0.y !== island1.y) {
 		// check if there are any islands in the way
 		for (let i = 0; i < level.islands.length; i++) {
@@ -29,7 +29,7 @@ const vertAdjacent = (level: LevelData, island0: Island, island1: Island) => {
 	return false;
 };
 
-const horAdjacent = (level: LevelData, island0: Island, island1: Island) => {
+const horAdjacent = (level: LevelData, island0: Coordinates, island1: Coordinates) => {
 	if (island0.y === island1.y && island0.x !== island1.x) {
 		for (let i = 0; i < level.islands.length; i++) {
 			if (
@@ -55,7 +55,7 @@ const horAdjacent = (level: LevelData, island0: Island, island1: Island) => {
 	return false;
 };
 
-export const adjacent = (level: LevelData, island0: Island, island1: Island) => {
+export const adjacent = (level: LevelData, island0: Coordinates, island1: Coordinates) => {
 	return vertAdjacent(level, island0, island1) || horAdjacent(level, island0, island1);
 };
 
@@ -260,4 +260,155 @@ export const checkVictory = (level: LevelData) => {
 		});
 	}
 	return victory;
+};
+
+export const checkFull = (level: LevelData) => {
+	return !level.islands.find((island) => island.b && island.n !== island.b);
+};
+
+const connectedIslands = (level: LevelData, island: Island) => {
+	const result: Island[] = [];
+	level.bridgesH.forEach((bridgeH) => {
+		if (bridgeH.x0 === island.x && bridgeH.y === island.y) {
+			const connected = level.islands.find((i) => i.x === bridgeH.x1 && i.y === bridgeH.y);
+			if (!connected) {
+				throw new Error(`Bridge connected to nothing: ${bridgeH}`);
+			}
+			result.push(connected);
+		}
+		if (bridgeH.x1 === island.x && bridgeH.y === island.y) {
+			const connected = level.islands.find((i) => i.x === bridgeH.x0 && i.y === bridgeH.y);
+			if (!connected) {
+				throw new Error(`Bridge connected to nothing: ${bridgeH}`);
+			}
+			result.push(connected);
+		}
+	});
+	level.bridgesV.forEach((bridgeV) => {
+		if (bridgeV.x === island.x && bridgeV.y0 === island.y) {
+			const connected = level.islands.find((i) => i.x === bridgeV.x && i.y === bridgeV.y1);
+			if (!connected) {
+				throw new Error(`Bridge connected to nothing: ${bridgeV}`);
+			}
+			result.push(connected);
+		}
+		if (bridgeV.x === island.x && bridgeV.y1 === island.y) {
+			const connected = level.islands.find((i) => i.x === bridgeV.x && i.y === bridgeV.y0);
+			if (!connected) {
+				throw new Error(`Bridge connected to nothing: ${bridgeV}`);
+			}
+			result.push(connected);
+		}
+	});
+	return result;
+};
+
+const getConnectedIslands = (level: LevelData, startingIsland: Island) => {
+	const traversingStack = [startingIsland];
+	const visited = [startingIsland];
+
+	while (traversingStack.length > 0) {
+		const island = traversingStack.pop()!;
+		const connected = connectedIslands(level, island);
+		connected.forEach((cI) => {
+			if (!visited.find((i) => i.x === cI.x && i.y === cI.y)) {
+				visited.push(cI);
+				traversingStack.unshift(cI);
+			}
+		});
+	}
+	return visited;
+};
+
+const bridgeBetween = (level: LevelData, island0: Coordinates, island1: Coordinates) => {
+	let bridge = null;
+	if (island0.x === island1.x) {
+		level.bridgesV.forEach((bridgeV: BridgeV) => {
+			if (
+				bridgeV.x === island0.x &&
+				bridgeV.y0 === Math.min(island0.y, island1.y) &&
+				bridgeV.y1 === Math.max(island0.y, island1.y)
+			) {
+				bridge = bridgeV;
+				return false;
+			}
+		});
+	}
+	if (island0.y === island1.y) {
+		level.bridgesH.forEach((bridgeH: BridgeH) => {
+			if (
+				bridgeH.y === island0.y &&
+				bridgeH.x0 === Math.min(island0.x, island1.x) &&
+				bridgeH.x1 === Math.max(island0.x, island1.x)
+			) {
+				bridge = bridgeH;
+				return false;
+			}
+		});
+	}
+	return bridge;
+};
+
+const doubleConnectedAdjacentIslands = (level: LevelData, island: Coordinates) => {
+	const result: Island[] = [];
+	level.islands.forEach((i) => {
+		if (adjacent(level, i, island) && (bridgeBetween(level, i, island) || { n: 0 }).n > 1) {
+			result.push(i);
+		}
+	});
+	return result;
+};
+
+const doubleConnected = (level: LevelData, island1: Coordinates, island2: Coordinates) => {
+	const traversingStack = [island1];
+	const visited = [island1];
+
+	let isConnected = false;
+	while (traversingStack.length > 0) {
+		const island = traversingStack.pop()!;
+		const connected = doubleConnectedAdjacentIslands(level, island);
+		connected.forEach((cI: Island) => {
+			if (cI.x === island2.x && cI.y === island2.y) {
+				isConnected = true;
+				return false;
+			}
+			if (!visited.find((i) => i.x === cI.x && i.y === cI.y)) {
+				visited.push(cI);
+				if (!cI.b || cI.b > 3) {
+					traversingStack.unshift(cI);
+				}
+			}
+		});
+	}
+	return isConnected;
+};
+
+export const connectionError = (level: LevelData): Island[] => {
+	const connectedIslands = getConnectedIslands(level, level.islands[0]);
+	if (connectedIslands.length === level.islands.length) {
+		return [];
+	} else if (connectedIslands.length <= 0.5 * level.islands.length) {
+		return connectedIslands;
+	} else {
+		const otherIsland = level.islands.find((island) => {
+			return !!connectedIslands.find((cI) => island.x === cI.x && island.y === cI.y);
+		});
+		if (otherIsland) {
+			return getConnectedIslands(level, otherIsland);
+		}
+		console.log('We could not find the missing islands...');
+		return connectedIslands;
+	}
+};
+
+export const truckError = (level: LevelData): boolean => {
+	if (level.trucks.length === 0) {
+		return false;
+	}
+	for (let i = 0; i < level.trucks.length; i++) {
+		if (!doubleConnected(level, level.trucks[i].truck, level.trucks[i].garage)) {
+			return true;
+		}
+	}
+	return false;
 };

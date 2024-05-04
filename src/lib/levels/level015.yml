@@ -72,3 +72,4 @@ solution:
       y0: 1
       y1: 2
       'n': 2
+tip: A limit to one island, can mean a bridge to the other

@@ -4,12 +4,29 @@
 		n: number;
 		selected?: boolean;
 		size?: 'large' | 'small' | 'tiny';
+		error?: boolean;
 	};
-	const { n, b, selected, size = 'small' }: IslandProps = $props();
+	const { n, b, selected, size = 'small', error }: IslandProps = $props();
+	let errorClass = $state('');
+	$effect(() => {
+		if (error) {
+			for (let i = 0; i < 3; i++) {
+				setTimeout(() => {
+					errorClass = 'error';
+				}, i * 800);
+				setTimeout(
+					() => {
+						errorClass = '';
+					},
+					i * 800 + 300
+				);
+			}
+		}
+	});
 </script>
 
 <div
-	class={`island ${size} ${selected ? 'selected' : ''} ${n === b ? 'done' : ''} ${b !== null && n > b ? 'negative' : ''}`}
+	class={`island ${size} ${selected ? 'selected' : ''} ${n === b ? 'done' : ''} ${b !== null && n > b ? 'negative' : ''} ${errorClass}`}
 >
 	<p>{b === null ? '?' : b}</p>
 </div>
@@ -20,6 +37,7 @@
 		left: var(--left, 0);
 		top: var(--top, 0);
 		background-repeat: no-repeat;
+		transition: filter 0.3s;
 	}
 	.island p {
 		position: relative;
@@ -83,5 +101,9 @@
 	}
 	.negative {
 		color: #cc0000;
+	}
+	.island.error {
+		filter: opacity(0.4) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red)
+			drop-shadow(0 0 0 red) drop-shadow(0 0 0 red);
 	}
 </style>

@@ -2,11 +2,28 @@
 	type TruckProps = {
 		size?: 'large' | 'small' | 'tiny';
 		color?: 'blue' | 'green' | 'red';
+		error?: boolean;
 	};
-	const { size = 'small', color }: TruckProps = $props();
+	const { size = 'small', color, error }: TruckProps = $props();
+	let errorClass = $state('');
+	$effect(() => {
+		if (error) {
+			for (let i = 0; i < 3; i++) {
+				setTimeout(() => {
+					errorClass = 'error';
+				}, i * 800);
+				setTimeout(
+					() => {
+						errorClass = '';
+					},
+					i * 800 + 300
+				);
+			}
+		}
+	});
 </script>
 
-<div class={`truck ${size} ${color || ''}`}></div>
+<div class={`truck ${size} ${color || ''} ${errorClass}`}></div>
 
 <style>
 	/* TODO: support tiny and colors */
@@ -17,6 +34,7 @@
 		top: var(--top, 0);
 		background-repeat: no-repeat;
 		pointer-events: none;
+		transition: filter 0.3s;
 	}
 	.truck.large {
 		background-image: url(/truck_large.png);
@@ -31,5 +49,9 @@
 		margin-top: 4px;
 		width: 33px;
 		height: 30px;
+	}
+	.truck.error {
+		filter: opacity(0.4) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red)
+			drop-shadow(0 0 0 red) drop-shadow(0 0 0 red);
 	}
 </style>

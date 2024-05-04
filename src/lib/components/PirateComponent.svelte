@@ -1,11 +1,28 @@
 <script lang="ts">
 	type PirateProps = {
 		size?: 'large' | 'small' | 'tiny';
+		error?: boolean;
 	};
-	const { size = 'small' }: PirateProps = $props();
+	const { size = 'small', error }: PirateProps = $props();
+	let errorClass = $state('');
+	$effect(() => {
+		if (error) {
+			for (let i = 0; i < 3; i++) {
+				setTimeout(() => {
+					errorClass = 'error';
+				}, i * 800);
+				setTimeout(
+					() => {
+						errorClass = '';
+					},
+					i * 800 + 300
+				);
+			}
+		}
+	});
 </script>
 
-<div class={`pirate ${size}`}></div>
+<div class={`pirate ${size} ${errorClass}`}></div>
 
 <style>
 	.pirate {
@@ -15,6 +32,7 @@
 		top: var(--top, 0);
 		background-repeat: no-repeat;
 		pointer-events: none;
+		transition: filter 0.3s;
 	}
 	.pirate.large {
 		background-image: url(/pirate_large.png);
@@ -34,5 +52,9 @@
 		background-image: url(/pirate_tiny.png);
 		width: 18px;
 		height: 20px;
+	}
+	.pirate.error {
+		filter: opacity(0.4) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red)
+			drop-shadow(0 0 0 red) drop-shadow(0 0 0 red);
 	}
 </style>

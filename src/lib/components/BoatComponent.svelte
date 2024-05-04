@@ -2,11 +2,28 @@
 	type BoatProps = {
 		size?: 'large' | 'small' | 'tiny';
 		color?: 'blue' | 'green' | 'red';
+		error?: boolean;
 	};
-	const { size = 'small', color }: BoatProps = $props();
+	const { size = 'small', color, error }: BoatProps = $props();
+	let errorClass = $state('');
+	$effect(() => {
+		if (error) {
+			for (let i = 0; i < 3; i++) {
+				setTimeout(() => {
+					errorClass = 'error';
+				}, i * 800);
+				setTimeout(
+					() => {
+						errorClass = '';
+					},
+					i * 800 + 300
+				);
+			}
+		}
+	});
 </script>
 
-<div class={`boat ${size} ${color || ''}`}></div>
+<div class={`boat ${size} ${color || ''} ${errorClass}`}></div>
 
 <style>
 	.boat {
@@ -16,6 +33,7 @@
 		top: var(--top, 0);
 		background-repeat: no-repeat;
 		pointer-events: none;
+		transition: filter 0.3s;
 	}
 	.boat.large {
 		background-image: url(/sailboat_large.png);
@@ -51,6 +69,10 @@
 		background-image: url(/sailboat_tiny.png);
 		width: 18px;
 		height: 20px;
+	}
+	.boat.error {
+		filter: opacity(0.4) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red)
+			drop-shadow(0 0 0 red) drop-shadow(0 0 0 red);
 	}
 	/* .boat.large {
 		animation: 4s linear 0s infinite normal bob;

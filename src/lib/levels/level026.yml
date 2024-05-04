@@ -168,3 +168,4 @@ solution:
       y0: 2
       y1: 3
       'n': 2
+tip: Each boat must connect to its own dock

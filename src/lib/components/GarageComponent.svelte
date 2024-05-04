@@ -2,11 +2,28 @@
 	type GarageProps = {
 		size?: 'large' | 'small' | 'tiny';
 		color?: 'blue' | 'green' | 'red';
+		error?: boolean;
 	};
-	const { size = 'small', color }: GarageProps = $props();
+	const { size = 'small', color, error }: GarageProps = $props();
+	let errorClass = $state('');
+	$effect(() => {
+		if (error) {
+			for (let i = 0; i < 3; i++) {
+				setTimeout(() => {
+					errorClass = 'error';
+				}, i * 800);
+				setTimeout(
+					() => {
+						errorClass = '';
+					},
+					i * 800 + 300
+				);
+			}
+		}
+	});
 </script>
 
-<div class={`garage ${size} ${color || ''}`}></div>
+<div class={`garage ${size} ${color || ''} ${errorClass}`}></div>
 
 <style>
 	/* TODO: support tiny and colors */
@@ -17,6 +34,7 @@
 		top: var(--top, 0);
 		background-repeat: no-repeat;
 		pointer-events: none;
+		transition: filter 0.3s;
 	}
 	.garage.large {
 		background-image: url(/warehouse_large.png);
@@ -31,5 +49,9 @@
 		margin-top: -1px;
 		width: 36px;
 		height: 31px;
+	}
+	.garage.error {
+		filter: opacity(0.4) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red)
+			drop-shadow(0 0 0 red) drop-shadow(0 0 0 red);
 	}
 </style>

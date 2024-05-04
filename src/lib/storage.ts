@@ -23,7 +23,7 @@ export const saveLevel = (level: LevelData) => {
 	);
 };
 
-export const loadLevel = (level: LevelData): SaveData => {
+export const loadLevel = (level: LevelData) => {
 	let loaded: SaveData = {
 		islands: [],
 		bridgesH: [],
@@ -32,7 +32,6 @@ export const loadLevel = (level: LevelData): SaveData => {
 	};
 	try {
 		const stored = localStorage.getItem(level.name);
-		console.log('stored', stored);
 		if (stored) {
 			const temp = JSON.parse(stored);
 			const n = temp.islands.reduce((acc: number, i: Island) => {
@@ -51,10 +50,55 @@ export const loadLevel = (level: LevelData): SaveData => {
 	} catch (e) {
 		console.log('Failed to load');
 	}
-	return {
-		islands: loaded.islands || [],
-		bridgesH: loaded.bridgesH || [],
-		bridgesV: loaded.bridgesV || [],
-		undoStack: loaded.undoStack || []
-	};
+
+	level.islands = level.islands.map((baseIsland) => {
+		const loadedIsland = loaded.islands.find(
+			(lI) => baseIsland.x === lI.x && baseIsland.y === lI.y
+		);
+		if (loadedIsland) {
+			return {
+				...baseIsland,
+				n: loadedIsland.n
+			};
+		}
+		return {
+			...baseIsland,
+			n: 0
+		};
+	});
+	level.bridgesH = loaded.bridgesH;
+	level.bridgesV = loaded.bridgesV;
+	level.undoStack = loaded.undoStack;
+	level.loaded = true;
+};
+
+export const saveVictory = (level: LevelData, victory: boolean) => {
+	let loaded: VictoryData = {};
+	try {
+		const stored = localStorage.getItem('victoryData');
+		if (stored) {
+			const temp = JSON.parse(stored);
+			loaded = temp;
+		}
+	} catch (e) {
+		console.log('Failed to load');
+	}
+	loaded[level.id] = victory;
+	localStorage.setItem('victoryData', JSON.stringify(loaded));
+};
+
+export const loadVictoryMap = (victoryMap: VictoryData) => {
+	let loaded: VictoryData = {};
+	try {
+		const stored = localStorage.getItem('victoryData');
+		if (stored) {
+			loaded = JSON.parse(stored);
+		}
+	} catch (e) {
+		console.log('Failed to load');
+	}
+	const loadedKeys = Object.keys(loaded);
+	for (let i = 0; i < loadedKeys.length; i++) {
+		victoryMap[loadedKeys[i]] = loaded[loadedKeys[i]];
+	}
 };

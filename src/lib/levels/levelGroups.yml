@@ -1,0 +1,78 @@
+- name: Basics
+  unlock: 0
+  levels:
+    - id: 1
+    - id: 2
+    - id: 3
+    - id: 4
+    - id: 5
+    - id: 6
+    - id: 7
+- name: Logic
+  unlock: 7
+  levels:
+    - id: 8
+    - id: 9
+    - id: 11
+    - id: 12
+    - id: 13
+    - id: 14
+    - id: 15
+    - id: 10
+      optional: true
+    - id: 16
+      optional: true
+    - id: 17
+      optional: true
+    - id: 18
+      optional: true
+    - id: 19
+      optional: true
+    - id: 20
+      optional: true
+    - id: 21
+      optional: true
+- name: Boats
+  unlock: 17
+  levels:
+    - id: 22
+    - id: 23
+    - id: 24
+    - id: 26
+    - id: 27
+    - id: 25
+      optional: true
+    - id: 28
+      optional: true
+    - id: 29
+      optional: true
+- name: Trucks
+  unlock: 23
+  levels:
+    - id: 30
+    - id: 31
+    - id: 32
+    - id: 33
+      optional: true
+    - id: 34
+      optional: true
+    - id: 35
+      optional: true
+    - id: 36
+      optional: true
+    - id: 37
+      optional: true
+    - id: 38
+      optional: true
+
+- name: Mysteries
+  unlock: 28
+  levels:
+    - id: 39
+      optional: true
+    - id: 40
+      optional: true
+    - id: 41
+      optional: true
+    - id: 42
+      optional: true

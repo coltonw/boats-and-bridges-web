@@ -3,6 +3,7 @@
 	import IconRefresh from 'virtual:icons/ion/refresh-circle';
 	import IconBack from 'virtual:icons/ion/caret-back-circle';
 	import IconForward from 'virtual:icons/ion/caret-forward-circle';
+	import IconUp from 'virtual:icons/ion/caret-up-circle';
 	import IconDown from 'virtual:icons/ion/caret-down-circle';
 	import IconCheckmark from 'virtual:icons/ion/checkmark-circle';
 	import IslandComponent from '$lib/components/IslandComponent.svelte';
@@ -11,7 +12,15 @@
 	import FloatingBridgeComponent from '$lib/components/FloatingBridgeComponent.svelte';
 	import { coordToOffset, coordToPx, setScale } from '$lib/mapping';
 	import { gameBuilder } from '$lib/game.svelte';
-	import { checkVictory } from '$lib/utils';
+	import { loadLevel, loadVictoryMap, saveVictory } from '$lib/storage';
+	import { setPrevLevelName, transitioning } from '$lib/transitioning';
+	import {
+		checkFull,
+		checkVictory,
+		connectionError as connectionErrorUtil,
+		truckError as truckErrorUtil
+	} from '$lib/utils';
+	import levelGroups from '$lib/levels/levelGroups';
 	import BoatComponent from '$lib/components/BoatComponent.svelte';
 	import DockComponent from '$lib/components/DockComponent.svelte';
 	import GarageComponent from '$lib/components/GarageComponent.svelte';
@@ -20,12 +29,31 @@
 
 	const { data }: { data: LevelData } = $props();
 	const game = $derived(gameBuilder(data));
+	const victoryMap: VictoryData = $state({});
+	$effect(() => {
+		if (!game.level.loaded) {
+			loadLevel(game.level);
+			loadVictoryMap(victoryMap);
+		}
+	});
 	const victory = $derived(checkVictory(game.level));
+	const error = $derived(!victory && checkFull(game.level));
+	const connectionError: Island[] = $derived((error && connectionErrorUtil(game.level)) || []);
+	const truckError: boolean = $derived(error && truckErrorUtil(game.level));
+	const boatError: boolean = $derived(error && connectionError.length === 0 && !truckError); // we could actually calculate the boat error, but this is way easier and almost as good
 	let dismissed = $state(false);
 	$effect(() => {
 		// each time you go to a new level that hasn't been beaten, reset the dismissed flag
 		if (!victory) {
 			dismissed = false;
+		} else if (transitioning(game.level.name)) {
+			// This is just a QOL thing, if you are skipping through levels, you don't want them flashing the victory screen
+			dismissed = true;
+		}
+
+		// If you undo your win, it still counts as a win in level select
+		if (victory) {
+			saveVictory(game.level, victory);
 		}
 	});
 	let scale: { key: number; size: 'large' | 'small' | 'tiny' } | undefined = $state();
@@ -34,9 +62,17 @@
 		scale = setScale(game.level, appContainer.offsetWidth, appContainer.offsetHeight);
 	});
 	const colorArray: ('red' | 'green' | 'blue')[] = ['red', 'green', 'blue'];
+	const previouslyWonThisLevel = $derived(victoryMap[data.id] || false);
+	const levelsWon = $derived(
+		Object.values(victoryMap).filter((v) => v).length + (victory && !previouslyWonThisLevel ? 1 : 0)
+	);
+	const unlockedNewSection = $derived(levelGroups.find((group) => group.unlock === levelsWon));
+	$effect(() => {
+		setPrevLevelName(game.level.name);
+	});
 </script>
 
-<svelte:window on:keydown={game.keydownHandler} />
+<svelte:window onkeydown={game.keydownHandler} />
 
 <div class="main">
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions a11y-click-events-have-key-events -->
@@ -54,12 +90,14 @@
 			<button onclick={game.undoHandler}>
 				<IconUndo class="game-nav-icon" />
 			</button>
+			<a href="/"><IconUp class="game-nav-icon" /></a>
 			{#if data.nextUri}
 				<a href={data.nextUri}><IconForward class="game-nav-icon" /></a>
 			{:else}
 				<div class="nav-spacer"></div>
 			{/if}
 		</div>
+		<h3 class="tip">{game.level.tip}</h3>
 		<div
 			onclick={game.clickHandler}
 			onmousedown={game.clickHandler}
@@ -76,6 +114,7 @@
 						{b}
 						{n}
 						{selected}
+						error={!!connectionError.find((i) => i.x === x && i.y === y)}
 						size={scale?.size}
 						--left={coordToPx(x, 0, true)}
 						--top={coordToPx(y)}
@@ -112,12 +151,14 @@
 					<DockComponent
 						size={scale?.size}
 						color={game.level.boats.length > 1 ? colorArray[i] : undefined}
+						error={boatError}
 						--left={coordToPx(dock.x, 0, true)}
 						--top={coordToPx(dock.y)}
 					/>
 					<BoatComponent
 						size={scale?.size}
 						color={game.level.boats.length > 1 ? colorArray[i] : undefined}
+						error={boatError}
 						--left={coordToPx(boat.x, coordToOffset(0.5), true)}
 						--top={coordToPx(boat.y, coordToOffset(0.5))}
 					/>
@@ -125,6 +166,7 @@
 				{#each game.level.pirates as { x, y }, i}
 					<PirateComponent
 						size={scale?.size}
+						error={boatError}
 						--left={coordToPx(x, coordToOffset(0.5), true)}
 						--top={coordToPx(y, coordToOffset(0.5))}
 					/>
@@ -133,12 +175,14 @@
 					<GarageComponent
 						size={scale?.size}
 						color={game.level.trucks.length > 1 ? colorArray[i] : undefined}
+						error={truckError}
 						--left={coordToPx(garage.x, 0, true)}
 						--top={coordToPx(garage.y)}
 					/>
 					<TruckComponent
 						size={scale?.size}
 						color={game.level.trucks.length > 1 ? colorArray[i] : undefined}
+						error={truckError}
 						--left={coordToPx(truck.x, 0, true)}
 						--top={coordToPx(truck.y)}
 					/>
@@ -153,6 +197,7 @@
 		<div></div>
 		<div class="victory-content">
 			<div class="name">{game.level.name}</div>
+			<div class="tip">{unlockedNewSection ? 'Unlocked next area' : ''}</div>
 			<div class="nav">
 				<button
 					onclick={() => {
@@ -164,6 +209,7 @@
 				<button onclick={game.resetHandler}>
 					<IconRefresh class="game-nav-icon" />
 				</button>
+				<a href="/"><IconUp class="game-nav-icon" /></a>
 				{#if data.nextUri}
 					<a href={data.nextUri}><IconForward class="game-nav-icon" /></a>
 				{:else}
@@ -187,6 +233,11 @@
 	.name {
 		color: white;
 		font-weight: 500;
+		text-shadow: black 0.125em 0.125em 0.06em;
+	}
+	.tip {
+		color: white;
+		font-weight: 400;
 		text-shadow: black 0.125em 0.125em 0.06em;
 	}
 	.nav {

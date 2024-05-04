@@ -2,11 +2,28 @@
 	type DockProps = {
 		size?: 'large' | 'small' | 'tiny';
 		color?: 'blue' | 'green' | 'red';
+		error?: boolean;
 	};
-	const { size = 'small', color }: DockProps = $props();
+	const { size = 'small', color, error }: DockProps = $props();
+	let errorClass = $state('');
+	$effect(() => {
+		if (error) {
+			for (let i = 0; i < 3; i++) {
+				setTimeout(() => {
+					errorClass = 'error';
+				}, i * 800);
+				setTimeout(
+					() => {
+						errorClass = '';
+					},
+					i * 800 + 300
+				);
+			}
+		}
+	});
 </script>
 
-<div class={`dock ${size} ${color || ''}`}></div>
+<div class={`dock ${size} ${color || ''} ${errorClass}`}></div>
 
 <style>
 	/* TODO: support tiny */
@@ -17,6 +34,7 @@
 		top: var(--top, 0);
 		background-repeat: no-repeat;
 		pointer-events: none;
+		transition: filter 0.3s;
 	}
 	.dock.large {
 		background-image: url(/dock_large.png);
@@ -49,5 +67,9 @@
 	}
 	.dock.small.red {
 		background-image: url(/dock_small_red.png);
+	}
+	.dock.error {
+		filter: opacity(0.4) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red)
+			drop-shadow(0 0 0 red) drop-shadow(0 0 0 red);
 	}
 </style>

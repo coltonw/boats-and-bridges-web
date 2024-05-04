@@ -28,3 +28,4 @@ solution:
       y0: 0
       y1: 1
       'n': 1
+tip: Adjacent islands can have up to 2 bridges between them
