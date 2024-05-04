@@ -20,12 +20,6 @@
 		background-repeat: no-repeat;
 	}
 
-	.archipelago p {
-		color: white;
-		font-weight: 500;
-		text-shadow: black 0.125em 0.125em 0.06em;
-	}
-
 	.archipelago.completed {
 		opacity: 0.4;
 	}

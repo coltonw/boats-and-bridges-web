@@ -77,6 +77,7 @@
 		margin-bottom: 1em;
 		color: black;
 		font-size: 18px;
+		text-shadow: none;
 	}
 	.dialog button {
 		margin: 0;

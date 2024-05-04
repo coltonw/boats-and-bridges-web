@@ -29,7 +29,6 @@
 	<div></div>
 	<div class="victory-content">
 		<h3 class="name">{name}</h3>
-		<div class="tip">{unlockedNextArea ? 'Unlocked next area' : ''}</div>
 		<div class="nav">
 			<button onclick={onDismiss}>
 				<IconDown class="icon-button" />
@@ -46,10 +45,15 @@
 				</a>
 			{/if}
 		</div>
+		<h4 class="tip">{unlockedNextArea ? 'Unlocked next area' : ''}</h4>
 	</div>
 </div>
 
 <style>
+	.name,
+	.tip {
+		margin-bottom: 0.6em;
+	}
 	.nav {
 		display: flex;
 		flex-direction: row;
