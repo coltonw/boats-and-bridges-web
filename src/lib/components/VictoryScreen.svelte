@@ -10,6 +10,7 @@
 		unlockedNextLevel: boolean;
 		unlockedNextArea: boolean;
 		beatGame: boolean;
+		beatAllLevels: boolean;
 		onDismiss: () => void;
 		onReset: () => void;
 		nextUri?: string;
@@ -19,6 +20,7 @@
 		unlockedNextLevel,
 		unlockedNextArea,
 		beatGame,
+		beatAllLevels,
 		onDismiss,
 		onReset,
 		nextUri
@@ -39,13 +41,29 @@
 			<a href="/"><IconUp class="icon-button" /></a>
 			{#if unlockedNextLevel && nextUri}
 				<a href={nextUri}><IconForward class="icon-button" /></a>
-			{:else if beatGame}
+			{:else if beatAllLevels}
 				<a href="https://www.youtube.com/watch?v=T1XgFsitnQw">
 					<IconCheckmark class="icon-button" />
 				</a>
 			{/if}
 		</div>
-		<h4 class="tip">{unlockedNextArea ? 'Unlocked next area' : ''}</h4>
+		{#if unlockedNextArea}
+			<h4 class="tip">
+				Unlocked next area<br />
+				Click <IconUp class="icon-text" /> to go to level select screen
+			</h4>
+		{/if}
+		{#if beatAllLevels}
+			<h4 class="tip">
+				Thank you for playing!<br /><br />
+				Game by Will Colton
+			</h4>
+		{:else if beatGame}
+			<h4 class="tip">
+				You won the game!<br />
+				Feel free to keep playing and try beating all the levels
+			</h4>
+		{/if}
 	</div>
 </div>
 
@@ -53,6 +71,7 @@
 	.name,
 	.tip {
 		margin-bottom: 0.6em;
+		text-align: center;
 	}
 	.nav {
 		display: flex;

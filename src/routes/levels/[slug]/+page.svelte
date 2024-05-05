@@ -66,6 +66,36 @@
 		Object.values(victoryMap).filter((v) => v).length + (victory && !previouslyWonThisLevel ? 1 : 0)
 	);
 	const unlockedNewSection = $derived(levelGroups.find((group) => group.unlock === levelsWon));
+
+	const checkVictoryMap = (id: string): boolean => victoryMap[id] || (id === data.id && victory);
+	const levelStatuses = levelGroups.flatMap((group) => group.levels);
+	const beatGame = $derived(
+		!levelStatuses.find((level) => !level.optional && !checkVictoryMap(level.id))
+	);
+	const beatAllLevels = $derived(
+		!levelGroups.find((group) => !!group.levels.find((level) => !checkVictoryMap(level.id)))
+	);
+	const nextUnbeatenLevel = $derived(levelStatuses.find((level) => !checkVictoryMap(level.id)));
+	const nextUnbeatedUri = $derived(
+		nextUnbeatenLevel ? `/levels/${nextUnbeatenLevel.id}` : undefined
+	);
+	const nextId = $derived(data.nextUri?.slice(data.nextUri.lastIndexOf('/') + 1));
+	const unlockedNextLevel = $derived(
+		nextId
+			? !!levelGroups.find(
+					(group) => group.unlock <= levelsWon && group.levels.find((level) => level.id === nextId)
+				)
+			: false
+	);
+	const unlockedNextUnbeatenLevel = $derived(
+		nextUnbeatenLevel
+			? !!levelGroups.find(
+					(group) =>
+						group.unlock <= levelsWon &&
+						group.levels.find((level) => level.id === nextUnbeatenLevel.id)
+				)
+			: false
+	);
 	$effect(() => {
 		setPrevLevelName(game.level.name);
 	});
@@ -90,7 +120,7 @@
 				<IconUndo class="icon-button" />
 			</button>
 			<a href="/"><IconUp class="icon-button" /></a>
-			{#if data.nextUri}
+			{#if unlockedNextLevel && data.nextUri}
 				<a href={data.nextUri}><IconForward class="icon-button" /></a>
 			{:else}
 				<div class="nav-spacer"></div>
@@ -194,14 +224,15 @@
 {#if victory && !dismissed}
 	<VictoryScreen
 		name={data.name}
-		unlockedNextLevel={true}
 		unlockedNextArea={!!unlockedNewSection}
-		beatGame={true}
+		{beatGame}
+		{beatAllLevels}
 		onDismiss={() => {
 			dismissed = true;
 		}}
 		onReset={game.resetHandler}
-		nextUri={data.nextUri}
+		nextUri={nextUnbeatedUri}
+		unlockedNextLevel={unlockedNextUnbeatenLevel}
 	/>
 {/if}
 

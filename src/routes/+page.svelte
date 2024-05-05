@@ -13,6 +13,7 @@
 	const numVictories = $derived(Object.values(victoryMap).filter((v) => v).length);
 	const marginTop = [0, 60, -10, 40, -30, 50];
 	const marginLeft = [-12, 6, -4, 26];
+	const nextLockedGroup = $derived(levelGroups.find((group) => group.unlock > numVictories));
 </script>
 
 <div class="main">
@@ -68,6 +69,14 @@
 				</div>
 			</div>
 		{/each}
+		{#if nextLockedGroup}
+			<div class="locked-group">
+				<h1 class="name">{nextLockedGroup.name}</h1>
+				<h3 class="locked">
+					Unlocks after {nextLockedGroup.unlock - numVictories} more levels beaten
+				</h3>
+			</div>
+		{/if}
 	{/if}
 </div>
 
@@ -108,5 +117,13 @@
 	.archipelagos a {
 		color: black;
 		text-decoration: none;
+	}
+	.locked-group {
+		display: flex;
+		flex-direction: row;
+		align-items: baseline;
+	}
+	.locked-group :not(:last-child) {
+		margin-right: 30px;
 	}
 </style>
