@@ -50,6 +50,13 @@
 		width: 36px;
 		height: 31px;
 	}
+	.garage.tiny {
+		background-image: url(/warehouse_small.png);
+		margin-left: -6px;
+		margin-top: -8px;
+		width: 36px;
+		height: 31px;
+	}
 	.garage.error {
 		filter: opacity(0.4) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red)
 			drop-shadow(0 0 0 red) drop-shadow(0 0 0 red);

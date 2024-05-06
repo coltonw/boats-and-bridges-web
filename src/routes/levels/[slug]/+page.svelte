@@ -131,7 +131,10 @@
 			onclick={game.clickHandler}
 			onmousedown={game.clickHandler}
 			onmouseup={game.clickHandler}
+			ontouchstart={game.clickHandler}
+			ontouchend={game.clickHandler}
 			onmousemove={game.moveHandler}
+			ontouchmove={game.moveHandler}
 			onmouseleave={game.leaveHandler}
 			class="level-container"
 			role="application"
@@ -253,6 +256,7 @@
 		align-items: center;
 		height: 2.4em;
 		line-height: 1em;
+		margin-bottom: 1em;
 	}
 	.nav > :not(:last-child) {
 		margin-right: 0.5em;

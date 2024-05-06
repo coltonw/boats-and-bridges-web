@@ -61,4 +61,21 @@
 	.small .double {
 		margin-top: 4px;
 	}
+
+	.tiny {
+		margin-left: 14px;
+		margin-top: 9px;
+		padding-left: 4px;
+		padding-right: 7px;
+		height: 6px;
+	}
+
+	.tiny .inner {
+		height: 2px;
+		background-color: white;
+	}
+
+	.tiny .double {
+		margin-top: 2px;
+	}
 </style>

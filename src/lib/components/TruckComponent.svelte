@@ -50,6 +50,13 @@
 		width: 33px;
 		height: 30px;
 	}
+	.truck.tiny {
+		background-image: url(/truck_small.png);
+		margin-left: -8px;
+		margin-top: 0;
+		width: 33px;
+		height: 30px;
+	}
 	.truck.error {
 		filter: opacity(0.4) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red)
 			drop-shadow(0 0 0 red) drop-shadow(0 0 0 red);

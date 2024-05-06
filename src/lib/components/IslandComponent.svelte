@@ -43,7 +43,9 @@
 		position: relative;
 		z-index: 10;
 		color: black;
+		text-align: center;
 		text-shadow: none;
+		user-select: none;
 	}
 
 	.island.large {
@@ -59,24 +61,25 @@
 		width: 47px;
 	}
 	.island.tiny {
-		background-image: url(/island_small.png);
-		margin: 6px;
-		height: 47px;
-		width: 47px;
+		background-image: url(/island_tiny.png);
+		margin: 3px;
+		height: 20px;
+		width: 20px;
 	}
 	.island.large p {
 		margin: 0;
 		padding-right: 5px;
 		font-size: 54px;
-		text-align: center;
-		user-select: none;
 	}
 	.island.small p {
 		margin: 0;
 		padding-right: 2px;
 		font-size: 28px;
-		text-align: center;
-		user-select: none;
+	}
+	.island.tiny p {
+		margin: 0;
+		padding-right: 2px;
+		font-size: 12px;
 	}
 	.selected:before {
 		content: ' ';

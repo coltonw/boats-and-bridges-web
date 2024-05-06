@@ -50,8 +50,8 @@
 	}
 	.pirate.tiny {
 		background-image: url(/pirate_tiny.png);
-		width: 18px;
-		height: 20px;
+		width: 24px;
+		height: 27px;
 	}
 	.pirate.error {
 		filter: opacity(0.4) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red)

@@ -70,6 +70,15 @@
 		width: 18px;
 		height: 20px;
 	}
+	.boat.tiny.blue {
+		background-image: url(/sailboat_tiny_blue.png);
+	}
+	.boat.tiny.green {
+		background-image: url(/sailboat_tiny_green.png);
+	}
+	.boat.tiny.red {
+		background-image: url(/sailboat_tiny_red.png);
+	}
 	.boat.error {
 		filter: opacity(0.4) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red)
 			drop-shadow(0 0 0 red) drop-shadow(0 0 0 red);

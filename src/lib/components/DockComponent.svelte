@@ -68,6 +68,22 @@
 	.dock.small.red {
 		background-image: url(/dock_small_red.png);
 	}
+	.dock.tiny {
+		background-image: url(/dock_tiny.png);
+		margin-left: 13px;
+		margin-top: 10px;
+		width: 25px;
+		height: 25px;
+	}
+	.dock.tiny.blue {
+		background-image: url(/dock_tiny_blue.png);
+	}
+	.dock.tiny.green {
+		background-image: url(/dock_tiny_green.png);
+	}
+	.dock.tiny.red {
+		background-image: url(/dock_tiny_red.png);
+	}
 	.dock.error {
 		filter: opacity(0.4) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red)
 			drop-shadow(0 0 0 red) drop-shadow(0 0 0 red);

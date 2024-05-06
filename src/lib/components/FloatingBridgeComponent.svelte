@@ -43,4 +43,13 @@
 		height: 4px;
 		background-image: url(/bridge_hor_small.png);
 	}
+
+	.tiny {
+		padding-left: 5px;
+		height: 2px;
+	}
+	.tiny .inner {
+		height: 2px;
+		background-color: white;
+	}
 </style>
