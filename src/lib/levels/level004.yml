@@ -40,4 +40,4 @@ solution:
       y0: 0
       y1: 1
       'n': 1
-tip: You can keep dragging from one island to the next to go from 2 bridges back to 0
+tip: Bridges cannot go diagonal

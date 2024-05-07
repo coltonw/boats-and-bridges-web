@@ -101,6 +101,13 @@
 		bottom: -4px;
 		border: 4px solid white;
 	}
+	.tiny.selected:before {
+		top: -4px;
+		left: -6px;
+		right: -5px;
+		bottom: -4px;
+		border: 3px solid white;
+	}
 	.done,
 	.island.done p {
 		color: #df8e00;

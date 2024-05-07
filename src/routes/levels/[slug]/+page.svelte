@@ -55,6 +55,10 @@
 			saveVictory(game.level, victory);
 		}
 	});
+	$effect(() => {
+		// each time you go to a new level that hasn't been beaten, reset the dismissed flag
+		console.log(game.level.name, transitioning(game.level.name));
+	});
 	let scale: { key: number; size: 'large' | 'small' | 'tiny' } | undefined = $state();
 	let appContainer: HTMLDivElement;
 	$effect(() => {
@@ -227,6 +231,7 @@
 {#if victory && !dismissed}
 	<VictoryScreen
 		name={data.name}
+		size={scale?.size}
 		unlockedNextArea={!!unlockedNewSection}
 		{beatGame}
 		{beatAllLevels}
@@ -240,15 +245,30 @@
 {/if}
 
 <style>
+	.main {
+		display: flex;
+		flex-direction: column;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
 	.container {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		width: 100%;
-		height: 100%;
+		flex-grow: 1;
+	}
+	.tip,
+	.name {
+		text-align: center;
 	}
 	.tip {
 		font-weight: 400;
+	}
+
+	@media (max-width: 480px) {
+		.tip {
+			font-size: 1em;
+		}
 	}
 	.nav {
 		display: flex;

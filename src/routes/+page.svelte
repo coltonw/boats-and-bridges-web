@@ -11,7 +11,7 @@
 		loadVictoryMap(victoryMap);
 	});
 	const numVictories = $derived(Object.values(victoryMap).filter((v) => v).length);
-	const marginTop = [0, 60, -10, 40, -30, 50];
+	const marginTop = [0, 60, -10, 40, -20, 50];
 	const marginLeft = [-12, 6, -4, 26];
 	const nextLockedGroup = $derived(levelGroups.find((group) => group.unlock > numVictories));
 </script>
@@ -35,7 +35,7 @@
 								{#each levelGroup.levels.filter((lvl) => !lvl.optional) as level, i}
 									<a
 										href={`levels/${level.id}`}
-										style={`margin-top: ${marginTop[i % 6]}px; margin-left: ${marginLeft[i % 4]}px;`}
+										style={`margin-top: ${marginTop[i % 6]}px; margin-left: ${i === 0 ? 0 : marginLeft[i % 4]}px;`}
 									>
 										<ArchipelagoComponent
 											size="large"
@@ -85,6 +85,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		padding: 10px;
 	}
 	.options {
 		position: absolute;
@@ -96,9 +97,16 @@
 		flex-direction: column;
 		margin-bottom: 40px;
 	}
+	@media (max-width: 1024px) {
+		.level-group {
+			align-items: center;
+		}
+	}
 	.subgroups {
 		display: flex;
 		flex-direction: row;
+		justify-content: center;
+		flex-wrap: wrap;
 	}
 	.subgroup:not(:last-child) {
 		margin-right: 30px;
@@ -106,6 +114,7 @@
 	.title {
 		font-size: 60px;
 		margin-bottom: 60px;
+		text-align: center;
 	}
 	.spacer {
 		height: 1.17em;
@@ -113,6 +122,7 @@
 	.archipelagos {
 		display: flex;
 		flex-direction: row;
+		flex-wrap: wrap;
 	}
 	.archipelagos a {
 		color: black;

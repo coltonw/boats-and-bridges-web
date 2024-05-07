@@ -23,6 +23,16 @@ export const setScale = (level: LevelData, containerWidth: number, containerHeig
 		maxX = Math.max(island.x, maxX);
 		maxY = Math.max(island.y, maxY);
 	});
+	level.boats.forEach(({ boat, dock }) => {
+		maxX = Math.max(boat.x + 0.5, maxX);
+		maxY = Math.max(boat.y + 0.5, maxY);
+		maxX = Math.max(dock.x + 0.5, maxX);
+		maxY = Math.max(dock.y + 0.5, maxY);
+	});
+	level.pirates.forEach((pirate) => {
+		maxX = Math.max(pirate.x + 0.5, maxX);
+		maxY = Math.max(pirate.y + 0.5, maxY);
+	});
 	size = 'large';
 	if (Math.min(containerWidth / maxX, containerHeight / maxY) < 70) {
 		// TODO: actually handle rendering everything tiny

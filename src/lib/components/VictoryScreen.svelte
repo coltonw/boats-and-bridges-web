@@ -7,6 +7,7 @@
 
 	type VictoryScreenProps = {
 		name: string;
+		size?: 'large' | 'small' | 'tiny';
 		unlockedNextLevel: boolean;
 		unlockedNextArea: boolean;
 		beatGame: boolean;
@@ -17,6 +18,7 @@
 	};
 	const {
 		name,
+		size,
 		unlockedNextLevel,
 		unlockedNextArea,
 		beatGame,
@@ -114,5 +116,10 @@
 	}
 	.victory-content .name {
 		margin-bottom: 0.5em;
+	}
+	@media (max-width: 480px) {
+		.victory-screen {
+			font-size: 1.6em;
+		}
 	}
 </style>

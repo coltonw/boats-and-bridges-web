@@ -139,6 +139,8 @@ const undo = (level: LevelData) => {
 const selectIsland = (level: LevelData, island: Island) => {
 	const prevSelect = level.islands.find((i) => i.selected);
 	let change: LevelChange | undefined = undefined;
+
+	console.log('prevSelect?', prevSelect);
 	if (prevSelect) {
 		const newSelect = level.islands.find((i) => i.x === island.x && i.y === island.y);
 		if (newSelect && adjacent(level, prevSelect, newSelect)) {
@@ -206,25 +208,23 @@ export const gameBuilder = (levelParam: LevelData) => {
 			} else if (event.type === 'mouseup' || event.type === 'touchend') {
 				mouseUpIsland = newSelect;
 			}
-			if (event.type === 'click' || event.type === 'touchend') {
+			if (
+				(event.type === 'click' || event.type === 'touchend') &&
+				mouseDownIsland &&
+				mouseUpIsland &&
+				newSelect
+			) {
 				if (
-					mouseDownIsland &&
-					mouseUpIsland &&
-					newSelect &&
 					mouseDownIsland.x === mouseUpIsland.x &&
 					mouseDownIsland.x === newSelect.x &&
 					mouseDownIsland.y === mouseUpIsland.y &&
 					mouseDownIsland.y === newSelect.y
 				) {
 					// click island
-					selectIsland(level, mouseDownIsland);
-				} else if (
-					mouseDownIsland &&
-					mouseUpIsland &&
-					newSelect &&
-					mouseUpIsland.x === newSelect.x &&
-					mouseUpIsland.y === newSelect.y
-				) {
+					if (event.type === 'click') {
+						selectIsland(level, mouseDownIsland);
+					}
+				} else if (mouseUpIsland.x === newSelect.x && mouseUpIsland.y === newSelect.y) {
 					// drag and drop
 					const prevSelect = level.islands.find(
 						(island) => island.x === mouseDownIsland?.x && island.y === mouseDownIsland?.y
