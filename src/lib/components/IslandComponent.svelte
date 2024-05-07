@@ -46,6 +46,7 @@
 		text-align: center;
 		text-shadow: none;
 		user-select: none;
+		cursor: default;
 	}
 
 	.island.large {
