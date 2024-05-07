@@ -172,7 +172,7 @@ const mouseOffset = (event: MouseEvent) => {
 	};
 };
 
-const touchOffset = (event: TouchEvent) => {
+const touchOffset = (event: AppTouchEvent) => {
 	const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
 	if (event.targetTouches.length > 0) {
 		const offsetX = event.targetTouches[0].pageX - rect.left;
@@ -195,9 +195,10 @@ export const gameBuilder = (levelParam: LevelData) => {
 	let floatingBridge: FloatingBridge | undefined = $state();
 	let mouseDownIsland: Island | undefined = undefined;
 	let mouseUpIsland: Island | undefined = undefined;
-	const clickHandler = (event: MouseEvent | TouchEvent) => {
-		const { offsetX, offsetY } =
-			event instanceof TouchEvent ? touchOffset(event) : mouseOffset(event);
+	const clickHandler = (event: MouseEvent | AppTouchEvent) => {
+		const { offsetX, offsetY } = event.type.includes('touch')
+			? touchOffset(event as AppTouchEvent)
+			: mouseOffset(event as MouseEvent);
 		const x = pxToCoord(offsetX, true);
 		const y = pxToCoord(offsetY);
 		if (typeof x !== 'undefined' && typeof y !== 'undefined') {
@@ -244,12 +245,13 @@ export const gameBuilder = (levelParam: LevelData) => {
 		}
 	};
 
-	const moveHandler = (event: MouseEvent | TouchEvent) => {
+	const moveHandler = (event: MouseEvent | AppTouchEvent) => {
 		if (!mouseDownIsland) {
 			return;
 		}
-		const { offsetX, offsetY } =
-			event instanceof TouchEvent ? touchOffset(event) : mouseOffset(event);
+		const { offsetX, offsetY } = event.type.includes('touch')
+			? touchOffset(event as AppTouchEvent)
+			: mouseOffset(event as MouseEvent);
 		const left = coordToOffset(mouseDownIsland.x, 0, true) + islandCenterOffsetX();
 		const top = coordToOffset(mouseDownIsland.y) + islandCenterOffsetY();
 		const adj = offsetX - left;

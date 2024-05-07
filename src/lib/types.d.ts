@@ -112,3 +112,7 @@ type LevelGroup = {
 type VictoryData = {
 	[id: string]: boolean;
 };
+
+// Fixes a weird safari bug
+// https://stackoverflow.com/questions/58473921/why-cant-i-use-touchevent-in-safari
+type AppTouchEvent = TouchEvent;
