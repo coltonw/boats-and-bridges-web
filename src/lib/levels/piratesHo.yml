@@ -1,39 +1,48 @@
-name: My Little Pigeonhole
+name: Pirates Ho
+tip: Pirates must not have a path of water to any boats
 islands:
   - x: 0
     'y': 0
-    b: 2
+    b: 3
     'n': 0
   - x: 1
     'y': 0
-    b: 4
+    b: 3
     'n': 0
   - x: 2
     'y': 0
-    b: 1
+    b: 2
     'n': 0
   - x: 0
     'y': 1
-    b: 4
+    b: 3
     'n': 0
   - x: 1
     'y': 1
-    b: 6
+    b: 3
     'n': 0
   - x: 2
     'y': 1
-    b: 4
+    b: 2
     'n': 0
   - x: 0
     'y': 2
-    b: 1
+    b: 2
     'n': 0
-  - x: 2
+  - x: 1
     'y': 2
     b: 2
     'n': 0
-boats: []
-pirates: []
+boats:
+  - boat:
+      x: 0
+      'y': 1
+    dock:
+      x: 0
+      'y': 0
+pirates:
+  - x: 1
+    'y': 1
 trucks: []
 bridgesH: []
 bridgesV: []
@@ -41,35 +50,38 @@ solution:
   bridgesH:
     - x0: 0
       x1: 1
-      'y': 1
-      'n': 2
+      'y': 0
+      'n': 1
+    - x0: 1
+      x1: 2
+      'y': 0
+      'n': 1
     - x0: 1
       x1: 2
       'y': 1
-      'n': 2
+      'n': 1
     - x0: 0
       x1: 1
-      'y': 0
-      'n': 1
-    - x0: 1
-      x1: 2
-      'y': 0
+      'y': 2
       'n': 1
   bridgesV:
+    - x: 0
+      y0: 0
+      y1: 1
+      'n': 2
+    - x: 0
+      y0: 1
+      y1: 2
+      'n': 1
+    - x: 1
+      y0: 1
+      y1: 2
+      'n': 1
     - x: 1
       y0: 0
       y1: 1
-      'n': 2
-    - x: 0
+      'n': 1
+    - x: 2
       y0: 0
       y1: 1
       'n': 1
-    - x: 0
-      y0: 1
-      y1: 2
-      'n': 1
-    - x: 2
-      y0: 1
-      y1: 2
-      'n': 2
-tip: A limit to one island, can mean a bridge to the other

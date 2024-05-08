@@ -1,20 +1,29 @@
-name: Must Connect
+name: No Crossing Bridges
+tip: Bridges cannot cross
 islands:
   - x: 0
     'y': 0
-    b: 2
+    b: 3
     'n': 0
   - x: 1
     'y': 0
     b: 2
     'n': 0
   - x: 0
-    'y': 3
-    b: 2
+    'y': 1
+    b: 3
+    'n': 0
+  - x: 2
+    'y': 1
+    b: 3
     'n': 0
   - x: 1
-    'y': 3
+    'y': 2
     b: 2
+    'n': 0
+  - x: 2
+    'y': 2
+    b: 3
     'n': 0
 boats: []
 pirates: []
@@ -26,18 +35,21 @@ solution:
     - x0: 0
       x1: 1
       'y': 0
-      'n': 1
+      'n': 2
     - x0: 0
-      x1: 1
-      'y': 3
-      'n': 1
+      x1: 2
+      'y': 1
+      'n': 2
+    - x0: 1
+      x1: 2
+      'y': 2
+      'n': 2
   bridgesV:
     - x: 0
       y0: 0
-      y1: 3
+      y1: 1
       'n': 1
-    - x: 1
-      y0: 0
-      y1: 3
+    - x: 2
+      y0: 1
+      y1: 2
       'n': 1
-tip: All the islands need to be connected in one network

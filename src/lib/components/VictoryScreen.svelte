@@ -7,7 +7,6 @@
 
 	type VictoryScreenProps = {
 		name: string;
-		size?: 'large' | 'small' | 'tiny';
 		unlockedNextLevel: boolean;
 		unlockedNextArea: boolean;
 		beatGame: boolean;
@@ -18,7 +17,6 @@
 	};
 	const {
 		name,
-		size,
 		unlockedNextLevel,
 		unlockedNextArea,
 		beatGame,

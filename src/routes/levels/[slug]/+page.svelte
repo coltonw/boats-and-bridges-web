@@ -79,7 +79,11 @@
 	const beatAllLevels = $derived(
 		!levelGroups.find((group) => !!group.levels.find((level) => !checkVictoryMap(level.id)))
 	);
-	const nextUnbeatenLevel = $derived(levelStatuses.find((level) => !checkVictoryMap(level.id)));
+	const nextUnbeatenLevel = $derived(
+		levelStatuses.find(
+			(level) => parseInt(level.id, 10) > parseInt(data.id, 10) && !checkVictoryMap(level.id)
+		)
+	);
 	const nextUnbeatedUri = $derived(
 		nextUnbeatenLevel ? `/levels/${nextUnbeatenLevel.id}` : undefined
 	);
@@ -231,7 +235,6 @@
 {#if victory && !dismissed}
 	<VictoryScreen
 		name={data.name}
-		size={scale?.size}
 		unlockedNextArea={!!unlockedNewSection}
 		{beatGame}
 		{beatAllLevels}

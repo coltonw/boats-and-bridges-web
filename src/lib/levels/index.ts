@@ -1,121 +1,123 @@
-import level001 from './level001.yml';
-import level002 from './level002.yml';
-import level003 from './level003.yml';
-import level004 from './level004.yml';
-import level005 from './level005.yml';
-import level006 from './level006.yml';
-import level007 from './level007.yml';
-import level008 from './level008.yml';
-import level009 from './level009.yml';
-import level010 from './level010.yml';
-import level011 from './level011.yml';
-import level012 from './level012.yml';
-import level013 from './level013.yml';
-import level014 from './level014.yml';
-import level015 from './level015.yml';
-import level016 from './level016.yml';
-import level017 from './level017.yml';
-import level018 from './level018.yml';
-import level019 from './level019.yml';
-import level020 from './level020.yml';
-import level021 from './level021.yml';
-import level022 from './level022.yml';
-import level023 from './level023.yml';
-import level024 from './level024.yml';
-import level025 from './level025.yml';
-import level026 from './level026.yml';
-import level027 from './level027.yml';
-import level028 from './level028.yml';
-import level029 from './level029.yml';
-import level030 from './level030.yml';
-import level031 from './level031.yml';
-import level032 from './level032.yml';
-import level033 from './level033.yml';
-import level034 from './level034.yml';
-import level035 from './level035.yml';
-import level036 from './level036.yml';
-import level037 from './level037.yml';
-import level038 from './level038.yml';
-import level039 from './level039.yml';
-import level040 from './level040.yml';
-import level041 from './level041.yml';
-import level042 from './level042.yml';
-import level043 from './level043.yml';
-import level044 from './level044.yml';
-import level045 from './level045.yml';
-import level046 from './level046.yml';
-import level047 from './level047.yml';
-import level048 from './level048.yml';
-import level049 from './level049.yml';
-import level050 from './level050.yml';
-import level051 from './level051.yml';
-import level052 from './level052.yml';
-import level053 from './level053.yml';
-import level054 from './level054.yml';
-import level055 from './level055.yml';
-import level056 from './level056.yml';
-import level057 from './level057.yml';
-import level058 from './level058.yml';
+import howToPlay from './howToPlay.yml';
+import howToWin from './howToWin.yml';
+import doubleBridge from './doubleBridge.yml';
+import noTripleBridges from './noTripleBridges.yml';
+import noCrossingBridges from './noCrossingBridges.yml';
+import mustConnect from './mustConnect.yml';
+import warmingUp from './warmingUp.yml';
+import questionMarkIslands from './questionMarkIslands.yml';
+import atLeastOneBridgeMaybeTwo from './atLeastOneBridgeMaybeTwo.yml';
+import threesGalore from './threesGalore.yml';
+import onesOnOnes from './onesOnOnes.yml';
+import luckyNumber7 from './luckyNumber7.yml';
+import castleOfTwos from './castleOfTwos.yml';
+import grapplingHooks from './grapplingHooks.yml';
+import myLittlePigeonhole from './myLittlePigeonhole.yml';
+import bigPigeonhole from './bigPigeonhole.yml';
+import whichOneWhichOne from './whichOneWhichOne.yml';
+import advancedGrappling from './advancedGrappling.yml';
+import theConnectionCorner from './theConnectionCorner.yml';
+import pigeonholeMadness from './pigeonholeMadness.yml';
+import bringingItAllTogether from './bringingItAllTogether.yml';
+import myFirstBoat from './myFirstBoat.yml';
+import openOcean from './openOcean.yml';
+import lazyRiver from './lazyRiver.yml';
+import tunnel from './tunnel.yml';
+import twoBoats from './twoBoats.yml';
+import simpleBoat from './simpleBoat.yml';
+import aroundTheOutside from './aroundTheOutside.yml';
+import boatPigeonhole from './boatPigeonhole.yml';
+import timeForTrucks from './timeForTrucks.yml';
+import aTaleOfTwoTrucks1 from './aTaleOfTwoTrucks1.yml';
+import aTaleOfTwoTrucks2 from './aTaleOfTwoTrucks2.yml';
+import brainTrails from './brainTrails.yml';
+import twoTruckPaths from './twoTruckPaths.yml';
+import boatsAndTrucks from './boatsAndTrucks.yml';
+import boatsAndDoubleBridges from './boatsAndDoubleBridges.yml';
+import watchOutForGridlock from './watchOutForGridlock.yml';
+import trafficJam from './trafficJam.yml';
+import fiveQuestions from './fiveQuestions.yml';
+import cheshireCat from './cheshireCat.yml';
+import dontCombineThose from './dontCombineThose.yml';
+import squareOfMystery from './squareOfMystery.yml';
+import piratesHo from './piratesHo.yml';
+import theChase from './theChase.yml';
+import perilousJourneyHome from './perilousJourneyHome.yml';
+import theBilge from './theBilge.yml';
+import xMarksTheSpot from './xMarksTheSpot.yml';
+import tripleBoatTango from './tripleBoatTango.yml';
+import tidalPools from './tidalPools.yml';
+import snakingAround from './snakingAround.yml';
+import viciousPirates from './viciousPirates.yml';
+import fourLeafHighway from './fourLeafHighway.yml';
+import highwayPatrol from './highwayPatrol.yml';
+import boatsAndBridgesPiratesAndTrucks from './boatsAndBridgesPiratesAndTrucks.yml';
+import bloominQuestions from './bloominQuestions.yml';
+import howDoIEvenStart from './howDoIEvenStart.yml';
+import oddIslands from './oddIslands.yml';
+import getEven from './getEven.yml';
+import theSameButDifferent from './theSameButDifferent.yml';
 
 const levels: LevelData[] = [
-	level001,
-	level002,
-	level003,
-	level004,
-	level005,
-	level006,
-	level007,
-	level008,
-	level009,
-	level011,
-	level012,
-	level013,
-	level014,
-	level015,
-	level010,
-	level016,
-	level017,
-	level018,
-	level019,
-	level020,
-	level021,
-	level022,
-	level023,
-	level024,
-	level025,
-	level026,
-	level027,
-	level028,
-	level029,
-	level030,
-	level031,
-	level032,
-	level033,
-	level034,
-	level035,
-	level036,
-	level037,
-	level038,
-	level039,
-	level040,
-	level041,
-	level042,
-	level043,
-	level044,
-	level045,
-	level046,
-	level047,
-	level048,
-	level049,
-	level050,
-	level051,
-	level052,
-	level053,
-	level054,
-	level055,
-	level056,
-	level057,
-	level058
+	howToPlay, // 1
+	howToWin, // 2
+	doubleBridge, // 3
+	noTripleBridges, // 4
+	noCrossingBridges, // 5
+	mustConnect, // 6
+	warmingUp, // 7
+	questionMarkIslands, // 8
+	atLeastOneBridgeMaybeTwo, // 9
+	onesOnOnes, // 10
+	luckyNumber7, // 11
+	castleOfTwos, // 12
+	grapplingHooks, // 13
+	myLittlePigeonhole, // 14
+	threesGalore, // 15
+	bigPigeonhole, // 16
+	whichOneWhichOne, // 17
+	advancedGrappling, // 18
+	theConnectionCorner, // 19
+	pigeonholeMadness, // 20
+	bringingItAllTogether, // 21
+	myFirstBoat, // 22
+	openOcean, // 23
+	lazyRiver, // 24
+	twoBoats, // 25
+	simpleBoat, // 26
+	tunnel, // 27
+	aroundTheOutside, // 28
+	boatPigeonhole, // 29
+	timeForTrucks, // 30
+	aTaleOfTwoTrucks1, // 31
+	aTaleOfTwoTrucks2, // 32
+	brainTrails, // 33
+	twoTruckPaths, // 34
+	boatsAndTrucks, // 35
+	boatsAndDoubleBridges, // 36
+	watchOutForGridlock, // 37
+	trafficJam, // 38
+	fiveQuestions, // 39
+	cheshireCat, // 40
+	dontCombineThose, // 41
+	squareOfMystery, // 42
+	piratesHo, // 43
+	theChase, // 44
+	perilousJourneyHome, // 45
+	theBilge, // 46
+	xMarksTheSpot, // 47
+	tripleBoatTango, // 48
+	snakingAround, // 49
+	fourLeafHighway, // 50
+	boatsAndBridgesPiratesAndTrucks, // 51
+	tidalPools, // 52
+	highwayPatrol, // 53
+	viciousPirates, // 54
+	bloominQuestions, // 55
+	howDoIEvenStart, // 56
+	oddIslands, // 57
+	getEven, // 58
+	theSameButDifferent // 59
 ];
 levels.forEach((level, i) => {
 	level.undoStack = [];

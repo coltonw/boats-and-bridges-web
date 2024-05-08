@@ -1,44 +1,39 @@
-name: My First Boat
+name: My Little Pigeonhole
+tip: 'A limit to one island, can mean a bridge to the other'
 islands:
   - x: 0
     'y': 0
-    b: 3
+    b: 2
     'n': 0
   - x: 1
     'y': 0
-    b: 3
+    b: 4
     'n': 0
   - x: 2
     'y': 0
-    b: 3
+    b: 1
     'n': 0
   - x: 0
     'y': 1
-    b: 3
+    b: 4
     'n': 0
   - x: 1
     'y': 1
-    b: 4
+    b: 6
     'n': 0
   - x: 2
     'y': 1
     b: 4
     'n': 0
-  - x: 1
+  - x: 0
     'y': 2
-    b: 3
+    b: 1
     'n': 0
   - x: 2
     'y': 2
-    b: 3
+    b: 2
     'n': 0
-boats:
-  - boat:
-      x: 1
-      'y': 1
-    dock:
-      x: 0
-      'y': 0
+boats: []
 pirates: []
 trucks: []
 bridgesH: []
@@ -47,35 +42,34 @@ solution:
   bridgesH:
     - x0: 0
       x1: 1
-      'y': 0
-      'n': 2
-    - x0: 1
-      x1: 2
-      'y': 0
-      'n': 1
-    - x0: 0
-      x1: 1
       'y': 1
       'n': 2
     - x0: 1
       x1: 2
-      'y': 2
+      'y': 1
+      'n': 2
+    - x0: 0
+      x1: 1
+      'y': 0
+      'n': 1
+    - x0: 1
+      x1: 2
+      'y': 0
       'n': 1
   bridgesV:
+    - x: 1
+      y0: 0
+      y1: 1
+      'n': 2
     - x: 0
       y0: 0
       y1: 1
       'n': 1
-    - x: 2
-      y0: 0
-      y1: 1
-      'n': 2
-    - x: 1
+    - x: 0
       y0: 1
       y1: 2
-      'n': 2
+      'n': 1
     - x: 2
       y0: 1
       y1: 2
       'n': 2
-tip: A boat needs a clear path of water to its dock

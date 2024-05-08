@@ -1,4 +1,5 @@
-name: How Do I Even Start
+name: How Do I Even Start?
+tip: You can get to a few levels deleted from the game by using the URL
 islands:
   - x: 0
     'y': 0
@@ -170,4 +171,3 @@ solution:
       y0: 3
       y1: 4
       'n': 1
-tip: You can get to levels deleted from the game by using the URL

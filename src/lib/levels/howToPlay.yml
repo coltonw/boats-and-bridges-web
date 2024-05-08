@@ -1,15 +1,12 @@
-name: Double Bridge
+name: How to Play
+tip: Drag from one island to the other
 islands:
   - x: 0
     'y': 0
-    b: 3
+    b: 1
     'n': 0
   - x: 1
     'y': 0
-    b: 2
-    'n': 0
-  - x: 0
-    'y': 1
     b: 1
     'n': 0
 boats: []
@@ -22,10 +19,5 @@ solution:
     - x0: 0
       x1: 1
       'y': 0
-      'n': 2
-  bridgesV:
-    - x: 0
-      y0: 0
-      y1: 1
       'n': 1
-tip: Adjacent islands can have up to 2 bridges between them
+  bridgesV: []

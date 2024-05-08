@@ -1,4 +1,5 @@
-name: Pirates Ho
+name: My First Boat
+tip: A boat needs a clear path of water to its dock
 islands:
   - x: 0
     'y': 0
@@ -10,7 +11,7 @@ islands:
     'n': 0
   - x: 2
     'y': 0
-    b: 2
+    b: 3
     'n': 0
   - x: 0
     'y': 1
@@ -18,30 +19,28 @@ islands:
     'n': 0
   - x: 1
     'y': 1
-    b: 3
+    b: 4
     'n': 0
   - x: 2
     'y': 1
-    b: 2
-    'n': 0
-  - x: 0
-    'y': 2
-    b: 2
+    b: 4
     'n': 0
   - x: 1
     'y': 2
-    b: 2
+    b: 3
+    'n': 0
+  - x: 2
+    'y': 2
+    b: 3
     'n': 0
 boats:
   - boat:
-      x: 0
+      x: 1
       'y': 1
     dock:
       x: 0
       'y': 0
-pirates:
-  - x: 1
-    'y': 1
+pirates: []
 trucks: []
 bridgesH: []
 bridgesV: []
@@ -50,38 +49,33 @@ solution:
     - x0: 0
       x1: 1
       'y': 0
-      'n': 1
+      'n': 2
     - x0: 1
       x1: 2
       'y': 0
       'n': 1
-    - x0: 1
-      x1: 2
-      'y': 1
-      'n': 1
     - x0: 0
       x1: 1
+      'y': 1
+      'n': 2
+    - x0: 1
+      x1: 2
       'y': 2
       'n': 1
   bridgesV:
     - x: 0
       y0: 0
       y1: 1
-      'n': 2
-    - x: 0
-      y0: 1
-      y1: 2
-      'n': 1
-    - x: 1
-      y0: 1
-      y1: 2
-      'n': 1
-    - x: 1
-      y0: 0
-      y1: 1
       'n': 1
     - x: 2
       y0: 0
       y1: 1
-      'n': 1
-tip: Pirates must not have a path of water to any boats
+      'n': 2
+    - x: 1
+      y0: 1
+      y1: 2
+      'n': 2
+    - x: 2
+      y0: 1
+      y1: 2
+      'n': 2

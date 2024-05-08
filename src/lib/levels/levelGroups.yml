@@ -40,9 +40,9 @@
     - id: '22'
     - id: '23'
     - id: '24'
+    - id: '25'
     - id: '26'
     - id: '27'
-    - id: '25'
       optional: true
     - id: '28'
       optional: true
@@ -98,12 +98,16 @@
     - id: '49'
     - id: '50'
     - id: '51'
-    - id: '52'
-    - id: '53'
 
 - name: Extra Credit
-  unlock: 39
+  unlock: 44
   levels:
+    - id: '52'
+      optional: true
+    - id: '53'
+      optional: true
+    - id: '54'
+      optional: true
     - id: '54'
       optional: true
     - id: '55'
