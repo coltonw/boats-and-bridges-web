@@ -259,6 +259,7 @@
 		flex-direction: column;
 		align-items: center;
 		flex-grow: 1;
+		overscroll-behavior: contain;
 	}
 	.tip,
 	.name {
