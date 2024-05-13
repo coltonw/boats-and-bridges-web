@@ -53,7 +53,7 @@ export const setScale = (level: LevelData, containerWidth: number, containerHeig
 	offsetY = (maxHeight - maxY * scale) / 3;
 	return {
 		// a key used to determine when a re-render needs to happen
-		key: scale * 1000 + offsetX,
+		key: scale * 1000000 + offsetX * 1000 + offsetY,
 		size
 	};
 };
