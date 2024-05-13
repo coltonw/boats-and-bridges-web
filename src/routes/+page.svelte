@@ -11,8 +11,6 @@
 		loadVictoryMap(victoryMap);
 	});
 	const numVictories = $derived(Object.values(victoryMap).filter((v) => v).length);
-	const marginTop = [0, 60, -10, 40, -20, 50];
-	const marginLeft = [-12, 6, -4, 26];
 	const nextLockedGroup = $derived(levelGroups.find((group) => group.unlock > numVictories));
 </script>
 
@@ -35,7 +33,7 @@
 								{#each levelGroup.levels.filter((lvl) => !lvl.optional) as level, i}
 									<a
 										href={`levels/${level.id}`}
-										style={`margin-top: ${marginTop[i % 6]}px; margin-left: ${i === 0 ? 0 : marginLeft[i % 4]}px;`}
+										class={`top${i % 6} left${i % 4} ${i === 0 ? 'first' : ''}`}
 									>
 										<ArchipelagoComponent
 											size="large"
@@ -54,7 +52,7 @@
 								{#each levelGroup.levels.filter((lvl) => lvl.optional) as level, i}
 									<a
 										href={`levels/${level.id}`}
-										style={`margin-top: ${marginTop[i % 6]}px; margin-left: ${marginLeft[i % 4]}px;`}
+										class={`top${i % 6} left${i % 4} ${i === 0 ? 'first' : ''}`}
 									>
 										<ArchipelagoComponent
 											size="large"
@@ -108,8 +106,10 @@
 		justify-content: center;
 		flex-wrap: wrap;
 	}
-	.subgroup:not(:last-child) {
-		margin-right: 30px;
+	@media (min-width: 768px) {
+		.subgroup:not(:last-child) {
+			margin-right: 30px;
+		}
 	}
 	.title {
 		font-size: 60px;
@@ -124,10 +124,54 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
+		justify-content: center;
 	}
 	.archipelagos a {
 		color: black;
 		text-decoration: none;
+	}
+
+	.top1,
+	.top3,
+	.top5 {
+		margin-top: 10px;
+	}
+
+	@media (min-width: 768px) {
+		.top0 {
+			margin-top: 0;
+		}
+		.top1 {
+			margin-top: 60px;
+		}
+		.top2 {
+			margin-top: -10px;
+		}
+		.top3 {
+			margin-top: 40px;
+		}
+		.top4 {
+			margin-top: -20px;
+		}
+		.top5 {
+			margin-top: 50px;
+		}
+		/* -12, 6, -4, 26 */
+		.left0 {
+			margin-left: -12px;
+		}
+		.left1 {
+			margin-left: 6px;
+		}
+		.left2 {
+			margin-left: -4px;
+		}
+		.left3 {
+			margin-left: 26px;
+		}
+		.first {
+			margin-left: 0;
+		}
 	}
 	.locked-group {
 		display: flex;

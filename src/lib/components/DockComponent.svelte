@@ -26,7 +26,6 @@
 <div class={`dock ${size} ${color || ''} ${errorClass}`}></div>
 
 <style>
-	/* TODO: support tiny */
 	.dock {
 		position: absolute;
 		z-index: 5;
