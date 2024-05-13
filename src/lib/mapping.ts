@@ -1,7 +1,7 @@
 let scale: number = 200;
 let size: 'large' | 'medium' | 'small' | 'tiny' = 'large';
 let offsetX: number = 0;
-// TODO: add offsetY
+let offsetY: number = 0;
 const maxScale: number = 200;
 const marginMap = {
 	large: 22,
@@ -48,6 +48,9 @@ export const setScale = (level: LevelData, containerWidth: number, containerHeig
 	const maxHeight = containerHeight - 2 * margin() - islandSize();
 	scale = Math.min(Math.min(Math.floor(maxWidth / maxX), Math.floor(maxHeight / maxY)), maxScale);
 	offsetX = (maxWidth - maxX * scale) / 2;
+	// Because of the title, just using the middle of the level area makes the level look too far down the page.
+	// Dividing by 3 seems to be the right balance.
+	offsetY = (maxHeight - maxY * scale) / 3;
 	return {
 		// a key used to determine when a re-render needs to happen
 		key: scale * 1000 + offsetX,
@@ -55,17 +58,16 @@ export const setScale = (level: LevelData, containerWidth: number, containerHeig
 	};
 };
 
-export const coordToOffset = (
-	coord: number,
-	modifier: number = 0,
-	includeOffsetX: boolean = false
-) => coord * scale + modifier + (includeOffsetX ? offsetX : 0);
+export const coordToPx = (coord: number) => coord * scale;
+export const xCoordToPx = (coord: number) => coordToPx(coord) + offsetX;
+export const yCoordToPx = (coord: number) => coordToPx(coord) + offsetY;
+export const coordToCss = (coord: number) => `${coordToPx(coord)}px`;
+export const xCoordToCss = (coord: number, modifier: number = 0) =>
+	`${xCoordToPx(coord) + modifier}px`;
+export const yCoordToCss = (coord: number, modifier: number = 0) =>
+	`${yCoordToPx(coord) + modifier}px`;
 
-export const coordToPx = (coord: number, modifier: number = 0, includeOffsetX: boolean = false) =>
-	`${coordToOffset(coord, modifier, includeOffsetX)}px`;
-
-export const pxToCoord = (px: number, includeOffsetX: boolean = false) => {
-	const offset = includeOffsetX ? offsetX : 0;
+export const pxToCoord = (px: number, offset: number) => {
 	const lowerCoord = Math.floor((px + clickBuffer - margin() - offset) / scale);
 	const upperCoord = Math.ceil((px - islandSize() - clickBuffer - margin() - offset) / scale);
 	if (lowerCoord === upperCoord) {
@@ -73,6 +75,8 @@ export const pxToCoord = (px: number, includeOffsetX: boolean = false) => {
 	}
 	return undefined;
 };
+export const xPxToCoord = (px: number) => pxToCoord(px, offsetX);
+export const yPxToCoord = (px: number) => pxToCoord(px, offsetY);
 
 export const islandCenterOffsetX = () => margin() + Math.floor(islandSize() / 2);
 const extraYOffset = {

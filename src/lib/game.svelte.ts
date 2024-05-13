@@ -1,4 +1,11 @@
-import { coordToOffset, islandCenterOffsetX, islandCenterOffsetY, pxToCoord } from './mapping';
+import {
+	xCoordToPx,
+	yCoordToPx,
+	islandCenterOffsetX,
+	islandCenterOffsetY,
+	xPxToCoord,
+	yPxToCoord
+} from './mapping';
 import { saveLevel } from './storage';
 import { addBridge, adjacent } from './utils';
 
@@ -198,8 +205,8 @@ export const gameBuilder = (levelParam: LevelData) => {
 		const { offsetX, offsetY } = event.type.includes('touch')
 			? touchOffset(event as AppTouchEvent)
 			: mouseOffset(event as MouseEvent);
-		const x = pxToCoord(offsetX, true);
-		const y = pxToCoord(offsetY);
+		const x = xPxToCoord(offsetX);
+		const y = yPxToCoord(offsetY);
 		if (typeof x !== 'undefined' && typeof y !== 'undefined') {
 			const newSelect = level.islands.find((island) => island.x === x && island.y === y);
 			if (event.type === 'mousedown' || event.type === 'touchstart') {
@@ -251,8 +258,8 @@ export const gameBuilder = (levelParam: LevelData) => {
 		const { offsetX, offsetY } = event.type.includes('touch')
 			? touchOffset(event as AppTouchEvent)
 			: mouseOffset(event as MouseEvent);
-		const left = coordToOffset(mouseDownIsland.x, 0, true) + islandCenterOffsetX();
-		const top = coordToOffset(mouseDownIsland.y) + islandCenterOffsetY();
+		const left = xCoordToPx(mouseDownIsland.x) + islandCenterOffsetX();
+		const top = yCoordToPx(mouseDownIsland.y) + islandCenterOffsetY();
 		const adj = offsetX - left;
 		const opp = offsetY - top;
 		const rotate = adj >= 0 ? Math.atan(opp / adj) : Math.atan(opp / adj) + Math.PI;

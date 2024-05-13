@@ -8,7 +8,7 @@
 	import BridgeHComponent from '$lib/components/BridgeHComponent.svelte';
 	import BridgeVComponent from '$lib/components/BridgeVComponent.svelte';
 	import FloatingBridgeComponent from '$lib/components/FloatingBridgeComponent.svelte';
-	import { coordToOffset, coordToPx, setScale } from '$lib/mapping';
+	import { xCoordToCss, yCoordToCss, coordToCss, coordToPx, setScale } from '$lib/mapping';
 	import { gameBuilder } from '$lib/game.svelte';
 	import { loadLevel, loadVictoryMap, saveVictory } from '$lib/storage';
 	import { setPrevLevelName, transitioning } from '$lib/transitioning';
@@ -144,86 +144,88 @@
 			role="application"
 			bind:this={appContainer}
 		>
-			{#key scale?.key}
-				{#each game.level.islands as { x, y, b, n, selected }}
-					<IslandComponent
-						{b}
-						{n}
-						{selected}
-						error={!!connectionError.find((i) => i.x === x && i.y === y)}
-						size={scale?.size}
-						--left={coordToPx(x, 0, true)}
-						--top={coordToPx(y)}
-					/>
-				{/each}
-				{#if game.floatingBridge}
-					<FloatingBridgeComponent
-						size={scale?.size}
-						--left={`${game.floatingBridge.left}px`}
-						--top={`${game.floatingBridge.top}px`}
-						--width={`${game.floatingBridge.width}px`}
-						--rotate={`${game.floatingBridge.rotate}rad`}
-					/>
-				{/if}
-				{#each game.level.bridgesH as { x0, x1, y, n }}
-					<BridgeHComponent
-						{n}
-						size={scale?.size}
-						--left={coordToPx(x0, 0, true)}
-						--top={coordToPx(y)}
-						--width={coordToPx(x1 - x0)}
-					/>
-				{/each}
-				{#each game.level.bridgesV as { x, y0, y1, n }}
-					<BridgeVComponent
-						{n}
-						size={scale?.size}
-						--left={coordToPx(x, 0, true)}
-						--top={coordToPx(y0)}
-						--height={coordToPx(y1 - y0)}
-					/>
-				{/each}
-				{#each game.level.boats as { boat, dock }, i}
-					<DockComponent
-						size={scale?.size}
-						color={game.level.boats.length > 1 ? colorArray[i] : undefined}
-						error={boatError}
-						--left={coordToPx(dock.x, 0, true)}
-						--top={coordToPx(dock.y)}
-					/>
-					<BoatComponent
-						size={scale?.size}
-						color={game.level.boats.length > 1 ? colorArray[i] : undefined}
-						error={boatError}
-						--left={coordToPx(boat.x, coordToOffset(0.5), true)}
-						--top={coordToPx(boat.y, coordToOffset(0.5))}
-					/>
-				{/each}
-				{#each game.level.pirates as { x, y }, i}
-					<PirateComponent
-						size={scale?.size}
-						error={boatError}
-						--left={coordToPx(x, coordToOffset(0.5), true)}
-						--top={coordToPx(y, coordToOffset(0.5))}
-					/>
-				{/each}
-				{#each game.level.trucks as { truck, garage }, i}
-					<GarageComponent
-						size={scale?.size}
-						color={game.level.trucks.length > 1 ? colorArray[i] : undefined}
-						error={truckError}
-						--left={coordToPx(garage.x, 0, true)}
-						--top={coordToPx(garage.y)}
-					/>
-					<TruckComponent
-						size={scale?.size}
-						color={game.level.trucks.length > 1 ? colorArray[i] : undefined}
-						error={truckError}
-						--left={coordToPx(truck.x, 0, true)}
-						--top={coordToPx(truck.y)}
-					/>
-				{/each}
-			{/key}
+			{#if scale}
+				{#key scale?.key}
+					{#each game.level.islands as { x, y, b, n, selected }}
+						<IslandComponent
+							{b}
+							{n}
+							{selected}
+							error={!!connectionError.find((i) => i.x === x && i.y === y)}
+							size={scale?.size}
+							--left={xCoordToCss(x)}
+							--top={yCoordToCss(y)}
+						/>
+					{/each}
+					{#if game.floatingBridge}
+						<FloatingBridgeComponent
+							size={scale?.size}
+							--left={`${game.floatingBridge.left}px`}
+							--top={`${game.floatingBridge.top}px`}
+							--width={`${game.floatingBridge.width}px`}
+							--rotate={`${game.floatingBridge.rotate}rad`}
+						/>
+					{/if}
+					{#each game.level.bridgesH as { x0, x1, y, n }}
+						<BridgeHComponent
+							{n}
+							size={scale?.size}
+							--left={xCoordToCss(x0)}
+							--top={yCoordToCss(y)}
+							--width={coordToCss(x1 - x0)}
+						/>
+					{/each}
+					{#each game.level.bridgesV as { x, y0, y1, n }}
+						<BridgeVComponent
+							{n}
+							size={scale?.size}
+							--left={xCoordToCss(x)}
+							--top={yCoordToCss(y0)}
+							--height={coordToCss(y1 - y0)}
+						/>
+					{/each}
+					{#each game.level.boats as { boat, dock }, i}
+						<DockComponent
+							size={scale?.size}
+							color={game.level.boats.length > 1 ? colorArray[i] : undefined}
+							error={boatError}
+							--left={xCoordToCss(dock.x)}
+							--top={yCoordToCss(dock.y)}
+						/>
+						<BoatComponent
+							size={scale?.size}
+							color={game.level.boats.length > 1 ? colorArray[i] : undefined}
+							error={boatError}
+							--left={xCoordToCss(boat.x, coordToPx(0.5))}
+							--top={yCoordToCss(boat.y, coordToPx(0.5))}
+						/>
+					{/each}
+					{#each game.level.pirates as { x, y }, i}
+						<PirateComponent
+							size={scale?.size}
+							error={boatError}
+							--left={xCoordToCss(x, coordToPx(0.5))}
+							--top={yCoordToCss(y, coordToPx(0.5))}
+						/>
+					{/each}
+					{#each game.level.trucks as { truck, garage }, i}
+						<GarageComponent
+							size={scale?.size}
+							color={game.level.trucks.length > 1 ? colorArray[i] : undefined}
+							error={truckError}
+							--left={xCoordToCss(garage.x)}
+							--top={yCoordToCss(garage.y)}
+						/>
+						<TruckComponent
+							size={scale?.size}
+							color={game.level.trucks.length > 1 ? colorArray[i] : undefined}
+							error={truckError}
+							--left={xCoordToCss(truck.x)}
+							--top={yCoordToCss(truck.y)}
+						/>
+					{/each}
+				{/key}
+			{/if}
 		</div>
 	</div>
 </div>
