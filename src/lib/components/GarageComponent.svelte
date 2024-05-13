@@ -52,7 +52,7 @@
 	}
 	.garage.tiny {
 		background-image: url(/warehouse_small.png);
-		margin-left: -6px;
+		margin-left: 0;
 		margin-top: -8px;
 		width: 36px;
 		height: 31px;

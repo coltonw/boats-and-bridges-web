@@ -67,10 +67,10 @@
 	}
 
 	.tiny {
-		margin-left: 9px;
-		margin-top: 12px;
-		padding-top: 5px;
-		padding-bottom: 5px;
+		margin-left: 13px;
+		margin-top: 16px;
+		padding-top: 7px;
+		padding-bottom: 8px;
 		width: 6px;
 	}
 

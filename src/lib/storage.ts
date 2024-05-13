@@ -5,9 +5,11 @@ type SaveData = {
 	undoStack: LevelChange[];
 };
 
+const storeId = (level: LevelData) => `${level.name}${level.version ? ' ' + level.version : ''}`;
+
 export const saveLevel = (level: LevelData) => {
 	localStorage.setItem(
-		level.name,
+		storeId(level),
 		JSON.stringify({
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			islands: level.islands.flatMap(({ selected, ...island }) => {
@@ -31,7 +33,7 @@ export const loadLevel = (level: LevelData) => {
 		undoStack: []
 	};
 	try {
-		const stored = localStorage.getItem(level.name);
+		const stored = localStorage.getItem(storeId(level));
 		if (stored) {
 			const temp = JSON.parse(stored);
 			const n = temp.islands.reduce((acc: number, i: Island) => {

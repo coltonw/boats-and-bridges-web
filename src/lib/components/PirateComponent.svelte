@@ -50,6 +50,7 @@
 	}
 	.pirate.tiny {
 		background-image: url(/pirate_tiny.png);
+		margin-left: 3px;
 		width: 24px;
 		height: 27px;
 	}

@@ -67,6 +67,7 @@
 	}
 	.boat.tiny {
 		background-image: url(/sailboat_tiny.png);
+		margin: 4px;
 		width: 18px;
 		height: 20px;
 	}

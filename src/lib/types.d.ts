@@ -80,6 +80,7 @@ type LevelChange = {
 type LevelData = {
 	id: string;
 	name: string;
+	version?: number;
 	islands: Island[];
 	boats: BoatDock[];
 	trucks: TruckGarage[];

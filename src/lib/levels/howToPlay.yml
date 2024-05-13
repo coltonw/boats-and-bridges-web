@@ -1,5 +1,5 @@
 name: How to Play
-tip: Drag from one island to the other
+tip: Drag from one island to the other or tap to select each island one at a time
 islands:
   - x: 0
     'y': 0

@@ -64,8 +64,8 @@
 	.island.tiny {
 		background-image: url(/island_tiny.png);
 		margin: 3px;
-		height: 20px;
-		width: 20px;
+		height: 28px;
+		width: 28px;
 	}
 	.island.large p {
 		margin: 0;
@@ -79,8 +79,8 @@
 	}
 	.island.tiny p {
 		margin: 0;
-		padding-right: 2px;
-		font-size: 12px;
+		padding-right: 1px;
+		font-size: 16px;
 	}
 	.selected:before {
 		content: ' ';
@@ -106,7 +106,7 @@
 		top: -4px;
 		left: -6px;
 		right: -5px;
-		bottom: -4px;
+		bottom: -3px;
 		border: 3px solid white;
 	}
 	.done,

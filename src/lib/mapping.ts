@@ -1,16 +1,17 @@
 let scale: number = 200;
 let size: 'large' | 'small' | 'tiny' = 'large';
 let offsetX: number = 0;
+// TODO: add offsetY
 const maxScale: number = 200;
 const marginMap = {
 	large: 22,
 	small: 11,
-	tiny: 5
+	tiny: 6
 };
 const islandSizeMap = {
 	large: 68,
 	small: 35,
-	tiny: 15
+	tiny: 20
 };
 const margin = () => marginMap[size];
 const islandSize = () => islandSizeMap[size];
@@ -35,7 +36,6 @@ export const setScale = (level: LevelData, containerWidth: number, containerHeig
 	});
 	size = 'large';
 	if (Math.min(containerWidth / maxX, containerHeight / maxY) < 70) {
-		// TODO: actually handle rendering everything tiny
 		size = 'tiny';
 	} else if (Math.min(containerWidth / maxX, containerHeight / maxY) < 140) {
 		size = 'small';

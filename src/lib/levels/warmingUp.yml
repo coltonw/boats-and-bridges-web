@@ -1,4 +1,5 @@
 name: Warming Up
+tip: The number of bridges will cycle from 2 bridges back to 0 when you try to add a third bridge
 islands:
   - x: 0
     'y': 0

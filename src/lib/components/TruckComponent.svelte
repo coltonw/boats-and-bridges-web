@@ -52,7 +52,7 @@
 	}
 	.truck.tiny {
 		background-image: url(/truck_small.png);
-		margin-left: -8px;
+		margin-left: -6px;
 		margin-top: 0;
 		width: 33px;
 		height: 30px;

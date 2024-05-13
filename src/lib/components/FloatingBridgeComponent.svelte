@@ -45,7 +45,7 @@
 	}
 
 	.tiny {
-		padding-left: 5px;
+		padding-left: 8px;
 		height: 2px;
 	}
 	.tiny .inner {

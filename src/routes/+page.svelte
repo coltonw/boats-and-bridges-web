@@ -115,6 +115,7 @@
 		font-size: 60px;
 		margin-bottom: 60px;
 		text-align: center;
+		text-wrap: balance;
 	}
 	.spacer {
 		height: 1.17em;

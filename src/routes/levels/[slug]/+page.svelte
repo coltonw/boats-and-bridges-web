@@ -254,26 +254,33 @@
 		padding-left: 20px;
 		padding-right: 20px;
 	}
+	@media (max-width: 480px) {
+		.main {
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+	}
 	.container {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		flex-grow: 1;
-		overscroll-behavior: contain;
 	}
+
 	.tip,
 	.name {
 		text-align: center;
+		text-wrap: balance;
 	}
 	.tip {
 		font-weight: 400;
 	}
-
 	@media (max-width: 480px) {
 		.tip {
 			font-size: 1em;
 		}
 	}
+
 	.nav {
 		display: flex;
 		flex-direction: row;

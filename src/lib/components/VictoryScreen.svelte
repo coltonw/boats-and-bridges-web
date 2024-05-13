@@ -72,6 +72,7 @@
 	.tip {
 		margin-bottom: 0.6em;
 		text-align: center;
+		text-wrap: balance;
 	}
 	.nav {
 		display: flex;

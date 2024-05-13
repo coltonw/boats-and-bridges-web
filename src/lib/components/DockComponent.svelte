@@ -70,8 +70,8 @@
 	}
 	.dock.tiny {
 		background-image: url(/dock_tiny.png);
-		margin-left: 13px;
-		margin-top: 10px;
+		margin-left: 19px;
+		margin-top: 15px;
 		width: 25px;
 		height: 25px;
 	}
