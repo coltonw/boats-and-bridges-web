@@ -44,7 +44,6 @@ export const setScale = (level: LevelData, containerWidth: number, containerHeig
 	} else if (Math.min(containerWidth / maxX, containerHeight / maxY) < 170) {
 		size = 'medium';
 	}
-	console.log(Math.min(containerWidth / maxX, containerHeight / maxY), size);
 	const maxWidth = containerWidth - 2 * margin() - islandSize();
 	const maxHeight = containerHeight - 2 * margin() - islandSize();
 	scale = Math.min(Math.min(Math.floor(maxWidth / maxX), Math.floor(maxHeight / maxY)), maxScale);

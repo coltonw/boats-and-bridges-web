@@ -3,7 +3,7 @@
 	import IconRefresh from 'virtual:icons/ion/refresh-circle';
 	import IconBack from 'virtual:icons/ion/caret-back-circle';
 	import IconForward from 'virtual:icons/ion/caret-forward-circle';
-	import IconUp from 'virtual:icons/ion/caret-up-circle';
+	import IconHome from 'virtual:icons/ion/home';
 	import IslandComponent from '$lib/components/IslandComponent.svelte';
 	import BridgeHComponent from '$lib/components/BridgeHComponent.svelte';
 	import BridgeVComponent from '$lib/components/BridgeVComponent.svelte';
@@ -117,13 +117,13 @@
 			{:else}
 				<div class="nav-spacer"></div>
 			{/if}
+			<a href="/"><IconHome class="icon-button" /></a>
 			<button onclick={game.resetHandler}>
 				<IconRefresh class="icon-button" />
 			</button>
 			<button onclick={game.undoHandler}>
 				<IconUndo class="icon-button" />
 			</button>
-			<a href="/"><IconUp class="icon-button" /></a>
 			{#if unlockedNextLevel && data.nextUri}
 				<a href={data.nextUri}><IconForward class="icon-button" /></a>
 			{:else}

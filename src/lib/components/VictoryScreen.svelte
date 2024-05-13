@@ -1,8 +1,8 @@
 <script lang="ts">
 	import IconRefresh from 'virtual:icons/ion/refresh-circle';
 	import IconForward from 'virtual:icons/ion/caret-forward-circle';
-	import IconUp from 'virtual:icons/ion/caret-up-circle';
-	import IconDown from 'virtual:icons/ion/caret-down-circle';
+	import IconHome from 'virtual:icons/ion/home';
+	import IconClose from 'virtual:icons/ion/close';
 	import IconCheckmark from 'virtual:icons/ion/checkmark-circle';
 
 	type VictoryScreenProps = {
@@ -28,17 +28,17 @@
 </script>
 
 <div class="victory-screen">
+	<button class="close" onclick={onDismiss}>
+		<IconClose class="icon-button" />
+	</button>
 	<div></div>
 	<div class="victory-content">
 		<h3 class="name">{name}</h3>
 		<div class="nav">
-			<button onclick={onDismiss}>
-				<IconDown class="icon-button" />
-			</button>
+			<a href="/"><IconHome class="icon-button" /></a>
 			<button onclick={onReset}>
 				<IconRefresh class="icon-button" />
 			</button>
-			<a href="/"><IconUp class="icon-button" /></a>
 			{#if unlockedNextLevel && nextUri}
 				<a href={nextUri}><IconForward class="icon-button" /></a>
 			{:else if beatAllLevels}
@@ -50,7 +50,7 @@
 		{#if unlockedNextArea}
 			<h4 class="tip">
 				Unlocked next area<br />
-				Click <IconUp class="icon-text" /> to go to level select screen
+				Click <IconHome class="icon-text" /> to go to level select screen
 			</h4>
 		{/if}
 		{#if beatAllLevels}
@@ -68,6 +68,12 @@
 </div>
 
 <style>
+	.close {
+		position: absolute;
+		right: 0;
+		top: 0;
+		font-size: 0.8em;
+	}
 	.name,
 	.tip {
 		margin-bottom: 0.6em;
@@ -84,7 +90,7 @@
 	.nav > :not(:last-child) {
 		margin-right: 0.5em;
 	}
-	.nav > button {
+	button {
 		margin: 0;
 		padding: 0;
 		border: 0;
