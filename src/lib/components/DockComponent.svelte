@@ -1,6 +1,6 @@
 <script lang="ts">
 	type DockProps = {
-		size?: 'large' | 'small' | 'tiny';
+		size?: 'large' | 'medium' | 'small' | 'tiny';
 		color?: 'blue' | 'green' | 'red';
 		error?: boolean;
 	};
@@ -51,6 +51,22 @@
 	}
 	.dock.large.red {
 		background-image: url(/dock_large_red.png);
+	}
+	.dock.medium {
+		background-image: url(/dock_medium.png);
+		margin-left: 42px;
+		margin-top: 39px;
+		width: 47px;
+		height: 47px;
+	}
+	.dock.medium.blue {
+		background-image: url(/dock_medium_blue.png);
+	}
+	.dock.medium.green {
+		background-image: url(/dock_medium_green.png);
+	}
+	.dock.medium.red {
+		background-image: url(/dock_medium_red.png);
 	}
 	.dock.small {
 		background-image: url(/dock_small.png);

@@ -1,7 +1,7 @@
 <script lang="ts">
 	type BridgeProps = {
 		n: number;
-		size?: 'large' | 'small' | 'tiny';
+		size?: 'large' | 'medium' | 'small' | 'tiny';
 	};
 	const { n, size = 'small' }: BridgeProps = $props();
 </script>
@@ -47,6 +47,23 @@
 
 	.large .double {
 		margin-left: 8px;
+	}
+
+	.medium {
+		margin-left: 27px;
+		margin-top: 36px;
+		padding-top: 16px;
+		padding-bottom: 16px;
+		width: 22px;
+	}
+
+	.medium .inner {
+		width: 8px;
+		background-image: url(/bridge_vert_large.png);
+	}
+
+	.medium .double {
+		margin-left: 6px;
 	}
 
 	.small {

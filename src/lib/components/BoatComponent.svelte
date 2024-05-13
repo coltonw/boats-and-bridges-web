@@ -1,6 +1,6 @@
 <script lang="ts">
 	type BoatProps = {
-		size?: 'large' | 'small' | 'tiny';
+		size?: 'large' | 'medium' | 'small' | 'tiny';
 		color?: 'blue' | 'green' | 'red';
 		error?: boolean;
 	};
@@ -35,19 +35,26 @@
 		pointer-events: none;
 		transition: filter 0.3s;
 	}
-	.boat.large {
+	.boat.large,
+	.boat.medium {
 		background-image: url(/sailboat_large.png);
 		margin: 30px;
 		width: 51px;
 		height: 57px;
 	}
-	.boat.large.blue {
+	.boat.medium {
+		margin: 16px;
+	}
+	.boat.large.blue,
+	.boat.medium.blue {
 		background-image: url(/sailboat_large_blue.png);
 	}
-	.boat.large.green {
+	.boat.large.green,
+	.boat.medium.green {
 		background-image: url(/sailboat_large_green.png);
 	}
-	.boat.large.red {
+	.boat.large.red,
+	.boat.medium.red {
 		background-image: url(/sailboat_large_red.png);
 	}
 	.boat.small {

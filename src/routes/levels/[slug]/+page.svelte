@@ -55,11 +55,7 @@
 			saveVictory(game.level, victory);
 		}
 	});
-	$effect(() => {
-		// each time you go to a new level that hasn't been beaten, reset the dismissed flag
-		console.log(game.level.name, transitioning(game.level.name));
-	});
-	let scale: { key: number; size: 'large' | 'small' | 'tiny' } | undefined = $state();
+	let scale: { key: number; size: 'large' | 'medium' | 'small' | 'tiny' } | undefined = $state();
 	let appContainer: HTMLDivElement;
 	$effect(() => {
 		scale = setScale(game.level, appContainer.offsetWidth, appContainer.offsetHeight);

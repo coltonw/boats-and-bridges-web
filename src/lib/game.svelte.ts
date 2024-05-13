@@ -140,7 +140,6 @@ const selectIsland = (level: LevelData, island: Island) => {
 	const prevSelect = level.islands.find((i) => i.selected);
 	let change: LevelChange | undefined = undefined;
 
-	console.log('prevSelect?', prevSelect);
 	if (prevSelect) {
 		const newSelect = level.islands.find((i) => i.x === island.x && i.y === island.y);
 		if (newSelect && adjacent(level, prevSelect, newSelect)) {

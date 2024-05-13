@@ -3,7 +3,7 @@
 		b: number | null;
 		n: number;
 		selected?: boolean;
-		size?: 'large' | 'small' | 'tiny';
+		size?: 'large' | 'medium' | 'small' | 'tiny';
 		error?: boolean;
 	};
 	const { n, b, selected, size = 'small', error }: IslandProps = $props();
@@ -55,6 +55,12 @@
 		height: 93px;
 		width: 93px;
 	}
+	.island.medium {
+		background-image: url(/island_medium.png);
+		margin: 8px;
+		height: 62px;
+		width: 62px;
+	}
 	.island.small {
 		background-image: url(/island_small.png);
 		margin: 6px;
@@ -71,6 +77,11 @@
 		margin: 0;
 		padding-right: 5px;
 		font-size: 54px;
+	}
+	.island.medium p {
+		margin: 0;
+		padding-right: 4px;
+		font-size: 36px;
 	}
 	.island.small p {
 		margin: 0;
@@ -93,6 +104,13 @@
 		left: -14px;
 		right: -14px;
 		bottom: -8px;
+		border: 4px solid white;
+	}
+	.medium.selected:before {
+		top: -8px;
+		left: -12px;
+		right: -12px;
+		bottom: -6px;
 		border: 4px solid white;
 	}
 	.small.selected:before {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	type PirateProps = {
-		size?: 'large' | 'small' | 'tiny';
+		size?: 'large' | 'medium' | 'small' | 'tiny';
 		error?: boolean;
 	};
 	const { size = 'small', error }: PirateProps = $props();
@@ -34,12 +34,17 @@
 		pointer-events: none;
 		transition: filter 0.3s;
 	}
-	.pirate.large {
+	.pirate.large,
+	.pirate.medium {
 		background-image: url(/pirate_large.png);
 		margin-left: 16px;
 		margin-top: 14px;
 		width: 64px;
 		height: 73px;
+	}
+	.pirate.medium {
+		margin-left: 8px;
+		margin-top: 0;
 	}
 	.pirate.small {
 		background-image: url(/pirate_small.png);

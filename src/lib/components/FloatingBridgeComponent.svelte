@@ -1,6 +1,6 @@
 <script lang="ts">
 	type FloatingBridgeProps = {
-		size?: 'large' | 'small' | 'tiny';
+		size?: 'large' | 'medium' | 'small' | 'tiny';
 	};
 	const { size = 'small' }: FloatingBridgeProps = $props();
 </script>
@@ -26,13 +26,19 @@
 		pointer-events: none;
 	}
 
-	.large {
+	.large,
+	.medium {
 		padding-left: 28px;
 		height: 8px;
 	}
-	.large .inner {
+	.large .inner,
+	.medium .inner {
 		height: 8px;
 		background-image: url(/bridge_hor_large.png);
+	}
+
+	.medium {
+		padding-left: 18px;
 	}
 
 	.small {

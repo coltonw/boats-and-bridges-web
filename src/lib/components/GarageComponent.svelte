@@ -1,6 +1,6 @@
 <script lang="ts">
 	type GarageProps = {
-		size?: 'large' | 'small' | 'tiny';
+		size?: 'large' | 'medium' | 'small' | 'tiny';
 		color?: 'blue' | 'green' | 'red';
 		error?: boolean;
 	};
@@ -42,6 +42,13 @@
 		margin-top: 0;
 		width: 72px;
 		height: 62px;
+	}
+	.garage.medium {
+		background-image: url(/warehouse_medium.png);
+		margin-left: 13px;
+		margin-top: 0;
+		width: 48px;
+		height: 42px;
 	}
 	.garage.small {
 		background-image: url(/warehouse_small.png);

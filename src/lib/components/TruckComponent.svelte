@@ -1,6 +1,6 @@
 <script lang="ts">
 	type TruckProps = {
-		size?: 'large' | 'small' | 'tiny';
+		size?: 'large' | 'medium' | 'small' | 'tiny';
 		color?: 'blue' | 'green' | 'red';
 		error?: boolean;
 	};
@@ -42,6 +42,13 @@
 		margin-top: 6px;
 		width: 66px;
 		height: 60px;
+	}
+	.truck.medium {
+		background-image: url(/truck_medium.png);
+		margin-left: 11px;
+		margin-top: 5px;
+		width: 44px;
+		height: 40px;
 	}
 	.truck.small {
 		background-image: url(/truck_small.png);
