@@ -87,6 +87,9 @@
 	.boat.tiny.red {
 		background-image: url(/sailboat_tiny_red.png);
 	}
+	.red {
+		filter: hue-rotate(-40deg);
+	}
 	.boat.error {
 		filter: opacity(0.4) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red) drop-shadow(0 0 0 red)
 			drop-shadow(0 0 0 red) drop-shadow(0 0 0 red);
