@@ -34,6 +34,11 @@ type FloatingBridge = {
 	rotate: number;
 };
 
+type DestroyBridge = {
+	x: number;
+	y: number;
+};
+
 type BoatDock = {
 	boat: {
 		x: number;

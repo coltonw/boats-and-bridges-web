@@ -1,6 +1,6 @@
 const bridgesLeft = (island: Island) => (island.b || 8) - island.n;
 
-const vertAdjacent = (level: LevelData, island0: Coordinates, island1: Coordinates) => {
+export const vertAdjacent = (level: LevelData, island0: Coordinates, island1: Coordinates) => {
 	if (island0.x === island1.x && island0.y !== island1.y) {
 		// check if there are any islands in the way
 		for (let i = 0; i < level.islands.length; i++) {
@@ -29,7 +29,7 @@ const vertAdjacent = (level: LevelData, island0: Coordinates, island1: Coordinat
 	return false;
 };
 
-const horAdjacent = (level: LevelData, island0: Coordinates, island1: Coordinates) => {
+export const horAdjacent = (level: LevelData, island0: Coordinates, island1: Coordinates) => {
 	if (island0.y === island1.y && island0.x !== island1.x) {
 		for (let i = 0; i < level.islands.length; i++) {
 			if (
@@ -320,7 +320,11 @@ const getConnectedIslands = (level: LevelData, startingIsland: Island) => {
 	return visited;
 };
 
-const bridgeBetween = (level: LevelData, island0: Coordinates, island1: Coordinates) => {
+export const bridgeBetween = (
+	level: LevelData,
+	island0: Coordinates,
+	island1: Coordinates
+): BridgeH | BridgeV | null => {
 	let bridge = null;
 	if (island0.x === island1.x) {
 		level.bridgesV.forEach((bridgeV: BridgeV) => {

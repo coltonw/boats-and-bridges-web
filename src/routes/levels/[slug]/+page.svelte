@@ -25,6 +25,7 @@
 	import TruckComponent from '$lib/components/TruckComponent.svelte';
 	import PirateComponent from '$lib/components/PirateComponent.svelte';
 	import VictoryScreen from '$lib/components/VictoryScreen.svelte';
+	import DestroyBridge from '$lib/components/DestroyBridge.svelte';
 
 	const { data }: { data: LevelData } = $props();
 	const game = $derived(gameBuilder(data));
@@ -131,6 +132,8 @@
 			{/if}
 		</div>
 		<h3 class="tip">{game.level.tip}</h3>
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div
 			onclick={game.clickHandler}
 			onmousedown={game.clickHandler}
@@ -166,6 +169,26 @@
 							--rotate={`${game.floatingBridge.rotate}rad`}
 						/>
 					{/if}
+					{#if game.bridgeHBlueprint}
+						<BridgeHComponent
+							n={game.bridgeHBlueprint.n}
+							size={scale?.size}
+							--left={xCoordToCss(game.bridgeHBlueprint.x0)}
+							--top={yCoordToCss(game.bridgeHBlueprint.y)}
+							--width={coordToCss(game.bridgeHBlueprint.x1 - game.bridgeHBlueprint.x0)}
+							blueprint
+						/>
+					{/if}
+					{#if game.bridgeVBlueprint}
+						<BridgeVComponent
+							n={game.bridgeVBlueprint.n}
+							size={scale?.size}
+							--left={xCoordToCss(game.bridgeVBlueprint.x)}
+							--top={yCoordToCss(game.bridgeVBlueprint.y0)}
+							--height={coordToCss(game.bridgeVBlueprint.y1 - game.bridgeVBlueprint.y0)}
+							blueprint
+						/>
+					{/if}
 					{#each game.level.bridgesH as { x0, x1, y, n }}
 						<BridgeHComponent
 							{n}
@@ -184,6 +207,13 @@
 							--height={coordToCss(y1 - y0)}
 						/>
 					{/each}
+					{#if game.destroyBridge}
+						<DestroyBridge
+							size={scale?.size}
+							--left={xCoordToCss(game.destroyBridge.x)}
+							--top={yCoordToCss(game.destroyBridge.y)}
+						/>
+					{/if}
 					{#each game.level.boats as { boat, dock }, i}
 						<DockComponent
 							size={scale?.size}

@@ -2,11 +2,12 @@
 	type BridgeProps = {
 		n: number;
 		size?: 'large' | 'medium' | 'small' | 'tiny';
+		blueprint?: boolean;
 	};
-	const { n, size = 'small' }: BridgeProps = $props();
+	const { n, size = 'small', blueprint }: BridgeProps = $props();
 </script>
 
-<div class={`bridgeV ${size}`}>
+<div class={`bridgeV ${size} ${blueprint ? 'blueprint' : ''}`}>
 	<div class="inner"></div>
 	{#if n >= 2}
 		<div class="inner double"></div>
@@ -30,6 +31,10 @@
 	.inner {
 		height: auto;
 		pointer-events: none;
+	}
+
+	.blueprint .inner {
+		filter: opacity(0.7);
 	}
 
 	.large {

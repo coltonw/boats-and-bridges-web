@@ -24,6 +24,7 @@
 	.inner {
 		width: auto;
 		pointer-events: none;
+		filter: brightness(0.7) sepia(1) hue-rotate(-50deg) saturate(10) opacity(0.6);
 	}
 
 	.large,

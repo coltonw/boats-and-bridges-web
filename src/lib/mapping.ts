@@ -78,6 +78,27 @@ export const pxToCoord = (px: number, offset: number) => {
 export const xPxToCoord = (px: number) => pxToCoord(px, offsetX);
 export const yPxToCoord = (px: number) => pxToCoord(px, offsetY);
 
+export const bridgeZone = (
+	startingIsland: Island,
+	targetIsland: Island,
+	xPx: number,
+	yPx: number
+): boolean => {
+	if (xPxToCoord(xPx) === startingIsland.x && yPxToCoord(yPx) === startingIsland.y) {
+		return false;
+	}
+
+	const lowerXCoord = Math.floor((xPx + clickBuffer - margin() - offsetX) / scale);
+	const upperXCoord = Math.ceil((xPx - islandSize() - clickBuffer - margin() - offsetX) / scale);
+	const lowerYCoord = Math.floor((yPx + clickBuffer - margin() - offsetY) / scale);
+	const upperYCoord = Math.ceil((yPx - islandSize() - clickBuffer - margin() - offsetY) / scale);
+	const minX = Math.min(startingIsland.x, targetIsland.x);
+	const maxX = Math.max(startingIsland.x, targetIsland.x);
+	const minY = Math.min(startingIsland.y, targetIsland.y);
+	const maxY = Math.max(startingIsland.y, targetIsland.y);
+	return minX <= lowerXCoord && upperXCoord <= maxX && minY <= lowerYCoord && upperYCoord <= maxY;
+};
+
 export const islandCenterOffsetX = () => margin() + Math.floor(islandSize() / 2);
 const extraYOffset = {
 	large: -4,

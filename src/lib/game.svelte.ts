@@ -4,10 +4,11 @@ import {
 	islandCenterOffsetX,
 	islandCenterOffsetY,
 	xPxToCoord,
-	yPxToCoord
+	yPxToCoord,
+	bridgeZone
 } from './mapping';
 import { saveLevel } from './storage';
-import { addBridge, adjacent } from './utils';
+import { addBridge, adjacent, bridgeBetween, horAdjacent, vertAdjacent } from './utils';
 
 const inverseChange = (level: LevelData, change: LevelChange): LevelChange => {
 	const undoChange: LevelChange = {};
@@ -196,9 +197,55 @@ const touchOffset = (event: AppTouchEvent) => {
 	};
 };
 
+const checkForBridgeBlueprints = (
+	level: LevelData,
+	startingIsland: Island,
+	xPx: number,
+	yPx: number
+) => {
+	for (let i = 0; i < level.islands.length; i++) {
+		if (
+			horAdjacent(level, startingIsland, level.islands[i]) &&
+			bridgeZone(startingIsland, level.islands[i], xPx, yPx)
+		) {
+			const b = bridgeBetween(level, startingIsland, level.islands[i]);
+			return {
+				bridgeH: b
+					? { ...(b as BridgeH), n: b.n + 1 }
+					: {
+							x0: Math.min(startingIsland.x, level.islands[i].x),
+							x1: Math.max(startingIsland.x, level.islands[i].x),
+							y: startingIsland.y,
+							n: 1
+						}
+			};
+		}
+		if (
+			vertAdjacent(level, startingIsland, level.islands[i]) &&
+			bridgeZone(startingIsland, level.islands[i], xPx, yPx)
+		) {
+			const b = bridgeBetween(level, startingIsland, level.islands[i]);
+			return {
+				bridgeV: b
+					? { ...(b as BridgeV), n: b.n + 1 }
+					: {
+							x: startingIsland.x,
+							y0: Math.min(startingIsland.y, level.islands[i].y),
+							y1: Math.max(startingIsland.y, level.islands[i].y),
+							n: 1
+						}
+			};
+		}
+	}
+	return {};
+};
+
 export const gameBuilder = (levelParam: LevelData) => {
 	const level: LevelData = $state(JSON.parse(JSON.stringify(levelParam)));
 	let floatingBridge: FloatingBridge | undefined = $state();
+	let bridgeHBlueprint: BridgeH | undefined = $state();
+	let bridgeVBlueprint: BridgeV | undefined = $state();
+	let destroyBridge: DestroyBridge | undefined = $state();
 	let mouseDownIsland: Island | undefined = undefined;
 	let mouseUpIsland: Island | undefined = undefined;
 	const clickHandler = (event: MouseEvent | AppTouchEvent) => {
@@ -216,38 +263,53 @@ export const gameBuilder = (levelParam: LevelData) => {
 				mouseUpIsland = newSelect;
 			}
 			if (
-				(event.type === 'click' || event.type === 'touchend') &&
+				event.type === 'click' &&
 				mouseDownIsland &&
 				mouseUpIsland &&
-				newSelect
+				newSelect &&
+				mouseDownIsland.x === mouseUpIsland.x &&
+				mouseDownIsland.x === newSelect.x &&
+				mouseDownIsland.y === mouseUpIsland.y &&
+				mouseDownIsland.y === newSelect.y
 			) {
-				if (
-					mouseDownIsland.x === mouseUpIsland.x &&
-					mouseDownIsland.x === newSelect.x &&
-					mouseDownIsland.y === mouseUpIsland.y &&
-					mouseDownIsland.y === newSelect.y
-				) {
-					// click island
-					if (event.type === 'click') {
-						selectIsland(level, mouseDownIsland);
-					}
-				} else if (mouseUpIsland.x === newSelect.x && mouseUpIsland.y === newSelect.y) {
-					// drag and drop
-					const prevSelect = level.islands.find(
-						(island) => island.x === mouseDownIsland?.x && island.y === mouseDownIsland?.y
-					);
-					if (prevSelect && adjacent(level, prevSelect, newSelect)) {
-						const change = addBridge(level, prevSelect, newSelect);
-						updateLevel(level, change);
-					}
-					updateSelection(level);
+				// click island
+				if (event.type === 'click') {
+					selectIsland(level, mouseDownIsland);
 				}
 			}
 		}
 		if (event.type === 'click' || event.type === 'touchend') {
+			if (bridgeHBlueprint) {
+				const island0 = level.islands.find(
+					(island) => island.x === bridgeHBlueprint?.x0 && island.y === bridgeHBlueprint?.y
+				);
+				const island1 = level.islands.find(
+					(island) => island.x === bridgeHBlueprint?.x1 && island.y === bridgeHBlueprint?.y
+				);
+				if (island0 && island1) {
+					const change = addBridge(level, island0, island1);
+					updateLevel(level, change);
+					updateSelection(level);
+				}
+			} else if (bridgeVBlueprint) {
+				const island0 = level.islands.find(
+					(island) => island.x === bridgeVBlueprint?.x && island.y === bridgeVBlueprint?.y0
+				);
+				const island1 = level.islands.find(
+					(island) => island.x === bridgeVBlueprint?.x && island.y === bridgeVBlueprint?.y1
+				);
+				if (island0 && island1) {
+					const change = addBridge(level, island0, island1);
+					updateLevel(level, change);
+					updateSelection(level);
+				}
+			}
 			mouseUpIsland = undefined;
 			mouseDownIsland = undefined;
 			floatingBridge = undefined;
+			bridgeHBlueprint = undefined;
+			bridgeVBlueprint = undefined;
+			destroyBridge = undefined;
 		}
 	};
 
@@ -258,18 +320,48 @@ export const gameBuilder = (levelParam: LevelData) => {
 		const { offsetX, offsetY } = event.type.includes('touch')
 			? touchOffset(event as AppTouchEvent)
 			: mouseOffset(event as MouseEvent);
-		const left = xCoordToPx(mouseDownIsland.x) + islandCenterOffsetX();
-		const top = yCoordToPx(mouseDownIsland.y) + islandCenterOffsetY();
-		const adj = offsetX - left;
-		const opp = offsetY - top;
-		const rotate = adj >= 0 ? Math.atan(opp / adj) : Math.atan(opp / adj) + Math.PI;
-		const width = Math.sqrt(Math.pow(adj, 2) + Math.pow(opp, 2));
-		floatingBridge = {
-			left,
-			top,
-			width,
-			rotate
-		};
+		const { bridgeH, bridgeV } = checkForBridgeBlueprints(level, mouseDownIsland, offsetX, offsetY);
+		if (bridgeH) {
+			bridgeHBlueprint = bridgeH;
+			if (bridgeH.n < 3) {
+				destroyBridge = undefined;
+			} else {
+				destroyBridge = {
+					x: (bridgeH.x0 + bridgeH.x1) / 2,
+					y: bridgeH.y
+				};
+			}
+			bridgeVBlueprint = undefined;
+			floatingBridge = undefined;
+		} else if (bridgeV) {
+			bridgeVBlueprint = bridgeV;
+			if (bridgeV.n < 3) {
+				destroyBridge = undefined;
+			} else {
+				destroyBridge = {
+					x: bridgeV.x,
+					y: (bridgeV.y0 + bridgeV.y1) / 2
+				};
+			}
+			bridgeHBlueprint = undefined;
+			floatingBridge = undefined;
+		} else {
+			const left = xCoordToPx(mouseDownIsland.x) + islandCenterOffsetX();
+			const top = yCoordToPx(mouseDownIsland.y) + islandCenterOffsetY();
+			const adj = offsetX - left;
+			const opp = offsetY - top;
+			const rotate = adj >= 0 ? Math.atan(opp / adj) : Math.atan(opp / adj) + Math.PI;
+			const width = Math.sqrt(Math.pow(adj, 2) + Math.pow(opp, 2));
+			floatingBridge = {
+				left,
+				top,
+				width,
+				rotate
+			};
+			bridgeHBlueprint = undefined;
+			bridgeVBlueprint = undefined;
+			destroyBridge = undefined;
+		}
 	};
 
 	const keydownHandler = (event: KeyboardEvent) => {
@@ -301,6 +393,9 @@ export const gameBuilder = (levelParam: LevelData) => {
 		mouseDownIsland = undefined;
 		mouseUpIsland = undefined;
 		floatingBridge = undefined;
+		bridgeHBlueprint = undefined;
+		bridgeVBlueprint = undefined;
+		destroyBridge = undefined;
 	};
 
 	return {
@@ -309,6 +404,15 @@ export const gameBuilder = (levelParam: LevelData) => {
 		},
 		get floatingBridge() {
 			return floatingBridge;
+		},
+		get bridgeHBlueprint() {
+			return bridgeHBlueprint;
+		},
+		get bridgeVBlueprint() {
+			return bridgeVBlueprint;
+		},
+		get destroyBridge() {
+			return destroyBridge;
 		},
 		clickHandler,
 		moveHandler,
